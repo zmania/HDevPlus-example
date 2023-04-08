@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.111.3">
+	<title>H:Dev+ Sample Code</title>
+
+	<!-- BOOTSTRAP OPTIONAL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
+	<!-- REQUEST DATA -->
+	<script>
+        const requestData = {'viewID': 'GET_POST', 'search_keyword': new URLSearchParams(window.location.search).get('search_keyword'), 'post_key': new URLSearchParams(window.location.search).get('post_key')};
+	</script>
+	<style>
+        #app {
+            display: none;
+        }
+	</style>
+</head>
+<body>
+<div id="app">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container">
+			<a class="navbar-brand me-5 text-black" href="/"><img src="/_images/common/hbnc-cube.png" class="mb-1 me-3" style="width: 2rem;"><span class="font-roboto" style="font-size: 1.2rem; font-weight: 900;">H</span><small style="font-size: 0.8rem; font-weight: 400; letter-spacing: -1px;"> : </small><small class="font-roboto" style="font-size: 0.8rem; font-weight: 400;">DEV+</small></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Dropdown
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled">Disabled</a>
+					</li>
+				</ul>
+				<form id="frm_post_search" class="d-flex" method="get" action="../post/list.html">
+					<input type="hidden" id="page" name="page" value="1">
+					<input class="form-control me-2" type="search" name="search_keyword" :value="output.search_keyword" id="search_keyword" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<main>
+			<div class="row g-5">
+				<div class="col-12">
+					<div class="text-center">
+						<h2 class="mt-5 mb-3">게시물 목록</h2>
+					</div>
+
+
+					<div id="post" :data-post-key="output.post[0].post_key" class="me-3">
+						<div class="py-3">
+							<div class="row">
+								<div class="col-12">
+									<div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+										<div>
+											<small class="ms-1 fw-bold">{{output.post[0].bbs_name}}</small>
+										</div>
+										<div class="d-flex justify-content-between align-items-center" v-if="output.user.auth_flg && output.post[0].member_seq == output.user.seq">
+											<a :href="'./modify.html?post_key='+output.post[0].post_key" class="mx-1 btn btn-dark d-flex justify-content-between align-items-center lh-1"><small class="smaller d-none d-md-block">수정</small></a>
+											<a href="#" data-return-url="./list.html" :data-post-key="output.post[0].post_key" class="h-btn-delete mx-1 btn btn-dark d-flex justify-content-between align-items-center lh-1"><small class="smaller d-none d-md-block">삭제</small></a>
+										</div>
+									</div>
+									<h1 class="fs-3 mt-4 mb-4" style="line-height: 1.5;">{{output.post[0].subject}}</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 text-start">
+									<div class="d-flex justify-content-start align-items-center" v-if="output.post[0].avatar_url">
+										{{output.post[0].create_date_type_ymhi}} by
+										<div class="mx-2">
+											{{ output.post[0].avatar_url }}
+											<img :src="output.post[0].avatar_url" style="max-width:1.5rem;"/>
+										</div>
+										{{output.post[0].reg_name}}
+									</div>
+									<small class="ms-2 d-block text-nowrap crop-text-1 w-100" v-else>
+										{{output.post[0].create_date_type_ymhi}} by
+										<i class="ms-2 fas fa-user-circle"></i>
+										{{output.post[0].reg_name}}
+									</small>
+								</div>
+							</div>
+						</div>
+						<div class="px-2">
+							<div class="row">
+								<div class="col-12">
+									<div class="my-4"><p class="text-justify" v-html="output.post[0].contents[0].content"/></div>
+									<div class="d-flex align-items-center justify-content-start my-2">
+                                        <span v-for="tags in output.post[0].tags" class="badge bg-white border me-1 fw-normal text-hbnc-secondary me-2 px-3 py-2">
+                                            {{tags.tag}}
+                                        </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="section_comment" class="hash-link">
+						<div class="comment mt-5 me-3">
+
+							<form id="frm_comment" class="my-4">
+								<div class="d-flex justify-content-between align-items-baseline"><h4>댓글</h4><small>댓글 <span class="comment-count">{{output.post[0].comment_count.toLocaleString()}}</span>개</small></div>
+								<div class="py-4 border-0 border-top border-bottom">
+									<div class="input-group mb-0" v-if="output.user.auth_flg">
+										<label for="name" class="form-label visually-hidden">댓글</label>
+										<textarea id="comment" type="text" rows="1" class="form-control" name="comment" placeholder="댓글을 입력하세요" style="height: 40.8px;"></textarea>
+										<button class="btn btn-dark" type="button" id="btn_save_comment">저장</button>
+									</div>
+									<div class="input-group mb-0" v-else>
+										<label for="name" class="form-label visually-hidden">댓글</label>
+										<div class="form-control" style="height: 40.8px;">로그인 후 이용하실 수 있습니다.</div>
+										<a class="btn border-hbnc-primary bg-hanbnc-primary-3 border border-3 rounded-0" href="/user/sign-in">로그인</a>
+									</div>
+								</div>
+							</form>
+						</div>
+
+
+						<div class="me-3">
+
+							<div>
+								<div class="pb-4 order-0">
+									<div class="comment-list">
+										<div class="h-div-comment" :data-comment-key="comment.comment_key" v-for="(comment, index) in output.post[0].comment_list" :key="comment.comment_key">
+											<div class="border-bottom px-1 py-3 position-relative post-comment-item">
+												<div class="d-flex justify-content-between align-items-baseline">
+													<div>
+														<strong class="me-1">{{comment.name}}</strong>
+													</div>
+													<small class="comment-date font-roboto">{{comment.create_date}}</small>
+												</div>
+												<div class="comment-body">
+													<p class="my-2 py-3 mb-0 rounded-2" v-html="comment.comment.split('\n').join('<br>')"></p>
+												</div>
+												<div class="d-flex justify-content-between align-items-center">
+													<a href="#" class="h-btn-show-reply-comment" v-if="comment.reply_comment.length>0"><small>답글 {{comment.reply_comment_cnt.toLocaleString()}}개 보기</small></a>
+													<span v-else>&nbsp;</span>
+													<div class="d-flex justify-content-between align-items-center">
+														<a v-if="output.user.auth_flg && comment.member_seq == output.user.seq" href="#" class="h-btn-reply-modify btn btn-outline-dark btn-sm ms-2 my-2 small">수정</a>
+														<a v-if="output.user.auth_flg && comment.member_seq == output.user.seq" href="#" class="h-btn-reply-delete btn btn-outline-dark btn-sm ms-2 my-2 small">삭제</a>
+														<a href="#" class="h-btn-reply-comment btn btn-outline-dark btn-sm ms-2 my-2 small">답글</a>
+													</div>
+												</div>
+												<form class="my-3 h-form-reply-comment" style="display:none;">
+													<input type="hidden" name="parent_comment_key" :value="comment.comment_key"/>
+													<div class="mb-0 mt-2">
+														<textarea type="text" rows="1" class="form-control comment-textarea" name="comment" placeholder="답글을 입력하세요" style="height: 42px;"></textarea>
+													</div>
+													<div class="mb-0 mt-2 text-center">
+														<button class="h-btn-submit-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small" type="button">저장</button>
+														<button class="h-btn-cancel-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small" type="button">취소</button>
+													</div>
+												</form>
+												<div class="h-div-reply-comment-list px-2 ms-4 py-3 mt-3" style="display:none;">
+													<div class="h-div-reply-comment" :data-comment-key="reply_comment.comment_key" v-for="reply_comment in comment.reply_comment" :key="reply_comment.comment_key">
+														<div class="py-3 border-top position-relative">
+															<div class="comment-body">
+																<p class="mb-1 small">
+																	<span class="mb-2 me-2 text-primary">@{{reply_comment.to_name}}</span>
+																	<span v-html="reply_comment.comment.split('\n').join('<br>')"></span>
+																</p>
+																<div class="d-flex justify-content-between align-items-center">
+																	<div>
+																		<strong class="me-2">{{reply_comment.name}}</strong>
+																		<small class="comment-date font-roboto">{{reply_comment.create_date}}</small>
+																	</div>
+																	<div>
+																		<a v-if="output.user.auth_flg && reply_comment.member_seq == output.user.seq" href="#" class="h-btn-reply-modify d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i class="fas fa-user-edit"></i> 수정</a>
+																		<a v-if="output.user.auth_flg && reply_comment.member_seq == output.user.seq" href="#" class="h-btn-reply-delete d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i class="fas fa-trash-alt"></i> 삭제</a>
+																		<a href="#" class="h-btn-reply-comment btn-outline-secondary d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i class="far fa-comment"></i> 답글</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<form class="my-3 h-form-reply-comment" style="display:none;">
+															<input type="hidden" name="parent_comment_key" :value="reply_comment.comment_key"/>
+															<div class="mb-0 mt-2">
+																<textarea type="text" rows="1" class="form-control comment-textarea" name="comment" placeholder="답글을 입력하세요" style="height: 42px;"></textarea>
+															</div>
+															<div class="mb-0 mt-2 text-center">
+																<button class="h-btn-submit-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small" type="button">저장</button>
+																<button class="h-btn-cancel-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small" type="button">취소</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="mt-4">
+								<? include($_SERVER['DOCUMENT_ROOT'] . '/_common/elements/pagination.php'); ?>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</main>
+
+		<footer class="my-5 pt-5 text-body-secondary text-center text-small">
+			<p class="mb-1">&copy; 2023 Company Name</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacy</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Support</a></li>
+			</ul>
+		</footer>
+	</div>
+</div>
+
+<!-- JQUERY REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<!-- VUE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
+<!-- BOOTSTRAP OPTIONAL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<!-- CONNECTOR -->
+<script src="../_connector/yellow.501.js"></script>
+</body>
+</html>

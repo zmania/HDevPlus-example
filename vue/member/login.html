@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.111.3">
+	<title>H:Dev+ Sample Code</title>
+
+	<!-- BOOTSTRAP OPTIONAL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
+	<!-- REQUEST DATA -->
+	<script>
+        const requestData = {'viewID': 'SIGN_IN'};
+	</script>
+	<style>
+		#app{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<main id="app">
+		<div class="row g-5">
+			<div class="offset-lg-2 col-lg-8">
+				<div class="text-center">
+					<h2 class="mt-5 mb-3">로그인</h2>
+				</div>
+				<form id="frm_sign_in">
+					<input type="hidden" id="return_url" name="return_url" value="../post/list.html">
+					<div class="my-1"><label class="sr-only">이메일</label>
+						<input id="email" name="email" class="form-control" data-validation="email" data-validation-type="replace" type="text" placeholder="이메일" value="">
+					</div>
+					<div class="my-1"><label class="sr-only">비밀번호</label><input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" value=""></div>
+					<div class="form-check lh-base mt-3">
+						<input class="form-check-input" type="checkbox" id="remember_me" name="remember_me" value="Y"><label class="form-check-label" for="remember_me">로그인상태 유지</label>
+					</div>
+					<div class="form-group mt-4">
+						<button class="btn btn-dark w-100" type="submit">로그인</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<footer class="my-5 pt-5 text-body-secondary text-center text-small">
+		<p class="mb-1">&copy; 2023 Company Name</p>
+		<ul class="list-inline">
+			<li class="list-inline-item"><a href="#">Privacy</a></li>
+			<li class="list-inline-item"><a href="#">Terms</a></li>
+			<li class="list-inline-item"><a href="#">Support</a></li>
+		</ul>
+	</footer>
+</div>
+
+
+<!-- JQUERY REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<!-- VUE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
+<!-- BOOTSTRAP OPTIONAL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<!-- CONNECTOR -->
+<script src="../_connector/yellow.501.js"></script>
+</body>
+</html>

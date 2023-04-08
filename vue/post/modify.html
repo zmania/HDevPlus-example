@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.111.3">
+	<title>H:Dev+ Sample Code</title>
+
+	<!-- BOOTSTRAP OPTIONAL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.core.css">
+	<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<!-- REQUEST DATA -->
+	<script>
+        const requestData = {'viewID': 'MODIFY_POST', 'post_key': new URLSearchParams(window.location.search).get('post_key'), 'search_keyword': new URLSearchParams(window.location.search).get('search_keyword')};
+	</script>
+	<style>
+        #app {
+            display: none;
+        }
+	</style>
+</head>
+<body>
+<div id="app">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container">
+			<a class="navbar-brand me-5 text-black" href="/"><img src="/_images/common/hbnc-cube.png" class="mb-1 me-3" style="width: 2rem;"><span class="font-roboto" style="font-size: 1.2rem; font-weight: 900;">H</span><small style="font-size: 0.8rem; font-weight: 400; letter-spacing: -1px;"> : </small><small class="font-roboto" style="font-size: 0.8rem; font-weight: 400;">DEV+</small></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Dropdown
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled">Disabled</a>
+					</li>
+				</ul>
+				<form id="frm_post_search" class="d-flex" method="get" action="../post/list.html">
+					<input type="hidden" id="page" name="page" value="1">
+					<input class="form-control me-2" type="search" name="search_keyword" :value="output.search_keyword" id="search_keyword" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<main>
+			<div class="row g-5">
+				<div class="col-12">
+					<div class="text-center">
+						<h2 class="mt-5 mb-3">게시물 등록</h2>
+					</div>
+					<form id="frm_save_post" data-validation-alert="no">
+						<input type="hidden" name="return_url" value="../post/list.html"/>
+						<input type="hidden" name="post_key" :value="output.post[0].post_key"/>
+						<div class="row">
+							<div class="col-12">
+								<div class="form-label">게시판</div>
+								<div id="">
+									<div class="bg-gray-light rounded-3 my-3 py-3">
+										<div class="row">
+											<div class="col-6 col-lg-3" v-for="result in output.bbs_list">
+												<div class="me-2 px-3 py-2 my-2 bg-secondary rounded-3 d-flex justify-content-between align-items-center">
+													<label class="crop-text-1 text-white" :for="'bbs_'+result.seq">{{result.bbs_name}}</label>
+													<input type="radio" class="form-check-input" :id="'bbs_'+result.seq" name="bbs_seq" :checked="output.post ? output.post[0].bbs_seq == result.seq : false" :value="result.seq" autocomplete="off">
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="invalid-feedback">
+										게시판을 선택하세요
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 mb-3">
+								<label for="subject" class="form-label">제목</label>
+								<input type="text" :value="output.post ? output.post[0].subject : ''" class="form-control h-validation" id="subject" name="subject" data-validation="not-empty" placeholder="제목을 입력하세요">
+								<small class="invalid-feedback">
+									제목을 입력하세요
+								</small>
+							</div>
+							<div class="row" v-if="!output.user.auth_flg">
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="email" class="form-label">이메일</label>
+									<input type="text" :value="output.post ? output.post[0].email : ''" class="form-control h-validation" id="email" name="email" data-validation="email" data-validation-type="replace" data-invalid-message="올바른 이메일을 입력하세요" placeholder="이메일을 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="cell_phone" class="form-label">휴대폰 번호</label>
+									<input type="text" :value="output.post ? output.post[0].cell_phone : ''" class="form-control" id="cell_phone" name="cell_phone" data-validation="phone" data-validation-type="replace" data-invalid-message="올바른 휴대폰 번호를 입력하세요" placeholder="휴대폰 번호를 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="reg_name" class="form-label">이름</label>
+									<input type="text" :value="output.post ? output.post[0].reg_name : ''" class="form-control h-validation" id="reg_name" name="reg_name" data-validation="not-empty" placeholder="이름을 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="reg_name" class="form-label">비밀번호</label>
+									<input type="password" :value="output.post ? output.post[0].password : ''" class="form-control" id="password" name="password" data-validation="password-4-8" data-invalid-message="올바른 비밀번호를 입력하세요" placeholder="숫자,영문 대 소문자 및 특수문자를 포함한 4-8글자">
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 mb-3" style="overflow: auto;">
+								<div for="content" class="form-label">내용</div>
+								<div data-editor="content_1" class="h-post-content" v-html="output.post ? output.post[0].contents[0].content : ''" style="height:400px;"></div>
+								<input type="hidden" id="content_1" :name="'content['+(output.post ? output.post[0].contents[0].seq : '')+']'" data-validation="not-empty" :value="output.post ? output.post[0].contents[0].content : ''" v-if="output.post"/>
+								<small class="invalid-feedback">
+									내용을 입력하세요
+								</small>
+								<div class="my-4 text-center mb-5">
+									<button type="submit" class="mx-1 btn btn-dark px-4">저장</button>
+									<a href="./list.html" class="h-btn-cancel-save mx-1 btn btn-dark px-4">취소</a>
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 text-center mb-5">
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</main>
+
+		<footer class="my-5 pt-5 text-body-secondary text-center text-small">
+			<p class="mb-1">&copy; 2023 Company Name</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacy</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Support</a></li>
+			</ul>
+		</footer>
+	</div>
+</div>
+
+<!-- JQUERY REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<!-- VUE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
+<!-- BOOTSTRAP OPTIONAL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<!-- EDITOR -->
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<!-- CONNECTOR -->
+<script src="../_connector/yellow.501.js"></script>
+</body>
+</html>
