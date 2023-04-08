@@ -3,11 +3,17 @@ let app;
 const secureKey = '385533ef360e89d7c5c898b00963c1d5a83b426bb7a48da52c37fe1410329bb1';
 $(function () {
     let session_id;
-    session_id = document.cookie.match('(^|;) ?session_id=([^;]*)(;|$)');
-    session_id = session_id ? session_id[2] : null;
+    session_id = localStorage.getItem('session_id');
+    if(!session_id) {
+        session_id = document.cookie.match('(^|;) ?session_id=([^;]*)(;|$)');
+        session_id = session_id ? session_id[2] : null;
+    }
     let api_token;
-    api_token = document.cookie.match('(^|;) ?api_token=([^;]*)(;|$)');
-    api_token = api_token ? api_token[2] : null;
+    api_token = localStorage.getItem('api_token');
+    if(!api_token) {
+        api_token = document.cookie.match('(^|;) ?api_token=([^;]*)(;|$)');
+        api_token = api_token ? api_token[2] : null;
+    }
     if (session_id) {
         requestData.session_id = session_id;
     }
