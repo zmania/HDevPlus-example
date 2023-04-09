@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
 	<!-- REQUEST DATA -->
 	<script>
-        const requestData = {'viewID': 'GET_POST', 'search_keyword': new URLSearchParams(window.location.search).get('search_keyword'), 'post_key': new URLSearchParams(window.location.search).get('post_key')};
+        const requestData = {'viewID': 'GET_POST', 'page_link_url':'view.html?post_key='+new URLSearchParams(window.location.search).get('post_key'),'search_keyword': new URLSearchParams(window.location.search).get('search_keyword'), 'post_key': new URLSearchParams(window.location.search).get('post_key')};
 	</script>
 	<style>
         #app {
@@ -214,7 +214,16 @@
 								</div>
 							</div>
 							<div class="mt-4">
-								<? include($_SERVER['DOCUMENT_ROOT'] . '/_common/elements/pagination.php'); ?>
+								<nav>
+									<ul class="pagination justify-content-center mb-0">
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.first.link" v-bind:data-page="output.pagination.paging.first.number"><i class="fas fa-angle-double-left"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.prev.link" v-bind:data-page="output.pagination.paging.prev.number"><i class="fas fa-angle-left"></i></a></li>
+										<li class="page-item h-page-numbers" v-if="output.pagination.paging.page" v-for="page in output.pagination.paging.page"><a :class="{'page-link':true, 'active': output.pagination.page == page.number }" v-bind:href="page.link" v-bind:data-page="page.number">{{page.number}}</a></li>
+										<li class="page-item" v-else><a class="border-0 page-link">1</a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.next.link" v-bind:data-page="output.pagination.paging.next.number"><i class="fas fa-angle-right"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.end.link" v-bind:data-page="output.pagination.paging.end.number"><i class="fas fa-angle-double-right"></i></a></li>
+									</ul>
+								</nav>
 							</div>
 						</div>
 					</div>
