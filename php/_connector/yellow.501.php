@@ -22,7 +22,7 @@ class HFConnector
 //			'httponly' => true,
 			'samesite' => 'None'
 		]);
-		$this->resCURL = curl_init("http://local.api.hanbnc.com/request");
+		$this->resCURL = curl_init("http://api.hanbnc.com/request");
 		$this->arrHeader[] = 'view-id:' . $arrRequestData['viewID'];
 		$this->arrHeader[] = 'api-token:' . $this->strAPIToken;
 		$this->arrHeader[] = 'security-key:' . $this->strSecureKey;
