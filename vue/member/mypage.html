@@ -13,12 +13,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
 	<!-- REQUEST DATA -->
 	<script>
-        const requestData = {'viewID': 'SIGN_UP'};
+        const requestData = {'viewID': 'MY_PAGE','fail_redirect_url':'./login.html'};
 	</script>
 	<style>
-		#app{
-			display:none;
-		}
+        #app{
+            display:none;
+        }
 	</style>
 </head>
 <body>
@@ -68,96 +68,76 @@
                 </div>
             </div>
         </nav>
-		<div class="row g-5">
-			<div class="offset-lg-2 col-lg-8">
-				<form id="frm_sign_up" class="mt-5 needs-validation form-signup">
-					<input type="hidden" name="return_url" id="return_url" value="./login.html">
-					<div class="text-center">
-						<h2 class="mt-5 mb-3">회원가입</h2>
-					</div>
-					<div class="pt-5 border-top border-hbnc-primary">
-						<p class="text-danger fs-4 fw-bold text-center">
-							실제 개인정보를 입력하지 않도록 주의해주세요.
-						</p>
-						<div class="row g-3">
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="email" class="form-label">이메일</label>
-									<input type="email" class="form-control" data-validation="email" data-validation-type="replace" id="email" name="email" placeholder="이메일을 입력하세요" data-gtm-form-interact-field-id="0">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 mb-5">
+					<div class="px-lg-4 mb-5">
+						<!-- USER PROFILE START -->
+						<div class="mb-3 row rounded-3 py-3">
+							<div class="col-12 col-md-12 col-lg-auto mb-3 mb-sm-0 d-flex justify-content-center align-items-center">
+								<div class="mx-4" style="width:6rem;">
+									<img colon:src="output.user.avatar_url" class="img-fluid">
 								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="cell_phone" class="form-label">휴대전화</label>
-									<input type="text" class="form-control" data-validation="number" data-validation-type="replace" id="cell_phone" name="cell_phone" placeholder="휴대전화 번호를 입력하세요">
+							</div><!-- media-img -->
+							<div class="w-100 my-2 ps-3 py-3 me-4 rounded-3 col-12 col-md-12 col-lg media-body d-flex flex-column align-items-start justify-content-center">
+								<div class="w-100 text-center text-lg-start d-flex align-items-center justify-content-start">
+									<h4>
+										{{output.user.nickname}}
+									</h4>
+									<small class="d-block my-2 ms-2">({{output.user.name}})</small>
 								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="name" class="form-label">이름</label>
-									<input type="text" class="form-control" data-validation="not-empty" id="name" name="name" placeholder="이름을 입력하세요">
-								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="nickname" class="form-label">닉네임</label>
-									<input type="text" class="form-control" data-validation="not-empty" id="nickname" name="nickname" placeholder="닉네임을 입력하세요">
-								</div>
-							</div>
-							<div class="col-12">
-								<label for="barth_y" class="form-label">생일(년)</label>
-								<select class="form-select" id="barth_y" name="barth_y" data-validation="not-empty">
-									<option value="">년도 선택</option>
-									<option value="2023">2023년</option>
-									<option value="2022">2022년</option>
-									<option value="1945">1945년</option>
-									<option value="1944">1944년</option>
-								</select>
-							</div>
-							<div class="col-6">
-								<label for="barth_m" class="form-label">생일(월)</label>
-								<select class="form-select" id="barth_m" name="barth_m" data-validation="not-empty">
-									<option value="">월 선택</option>
-									<option :value="month" v-for="month in 12" :key="month">{{month}}월</option>
-								</select>
-							</div>
-							<div class="col-6">
-								<label for="barth_d" class="form-label">생일(일)</label>
-								<select class="form-select" id="barth_d" name="barth_d" data-validation="not-empty">
-									<option value="">일 선택</option>
-									<option :value="day" v-for="day in 12" :key="day">{{day}}일</option>
-								</select>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="password" class="form-label">비밀번호</label>
-									<input type="password" class="form-control" data-validation="password-8-32" id="password" name="password" placeholder="비밀번호를 입력하세요" data-gtm-form-interact-field-id="1">
-									<div class="invalid-feedback"> 비밀번호를 확인하세요.</div>
-									<small class="form-text">8~32자리의 영문+숫자+특수문자 조합</small>
-								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<label for="password_re" class="form-label">비밀번호 재입력</label>
-									<input type="password" class="form-control" data-validation="password-8-32" id="password_re" name="password_re" placeholder="비밀번호를 다시한번 입력하세요">
-									<div class="invalid-feedback"> 비밀번호를 확인하세요.</div>
-								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group has-validation">
-									<div class="form-check lh-base mt-3">
-										<input class="form-check-input" type="checkbox" id="receive_message" name="receive_message" value="Y">
-										<label class="form-check-label" for="remember_me">소식 및 정보수신에 동의합니다.</label>
+								<div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
+									<div class="col-6 col-sm-3">
+										<span class="w-100 mt-2 badge text-white rounded-pill bg-secondary p-2">Level : {{output.member[0].level.toLocaleString()}}</span>
+									</div>
+									<div class="col-6 col-sm-3">
+										<span class="w-100 mt-2 badge text-white rounded-pill bg-secondary p-2">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
+									</div>
+									<div class="col-6 col-sm-3">
+										<span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary p-2">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
+									</div>
+									<div class="col-6 col-sm-3">
+										<span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary p-2">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- USER PROFILE START -->
+						<!-- MY NOTICE LIST START -->
+						<div v-if="output.notice_list?output.notice_list.length:false">
+							<ul class="list-group list-group-flush my-5">
+								<li class="list-group-item py-3 bg-transparent" v-for="result in output.notice_list">
+									<p class="d-sm-flex flex-wrap align-items-center mb-2">
+										<a href="" class="avatar avatar-sm me-2 d-none d-sm-inline"><img colon:src="result.avatar_url" alt=""></a>
+										<span class="fs-sm" v-html="result.notice_message"></span>
+										<span class="my-2 text-secondary text-nowrap fs-xs ms-auto d-flex align-items-center justify-content-end">
+                                            <i class="far fa-clock me-1"></i><small>{{result.create_date}}</small>
+                                    </span>
+									</p>
+									<div class="card border-0" v-if="result.notice_content">
+										<div class="card-body small" v-html="result.notice_content"></div>
+									</div>
+								</li>
+							</ul>
+							<!-- PAGINATION START -->
+							<div class="mt-2">
+								<nav>
+									<ul class="pagination justify-content-center mb-0">
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bindcolon:href="output.pagination.paging.first.link" v-bindcolon:data-page="output.pagination.paging.first.number"><i class="fas fa-angle-double-left"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bindcolon:href="output.pagination.paging.prev.link" v-bindcolon:data-page="output.pagination.paging.prev.number"><i class="fas fa-angle-left"></i></a></li>
+										<li class="page-item h-page-numbers" v-if="output.pagination.paging.page" v-for="page in output.pagination.paging.page"><a class="border-0 bg-transparent" colon:class="{'page-link'colon:true, 'active'colon: output.pagination.page == page.number }" v-bindcolon:href="page.link" v-bindcolon:data-page="page.number">{{page.number}}</a></li>
+										<li class="page-item" v-else><a class="border-0 page-link bg-transparent">1</a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bindcolon:href="output.pagination.paging.next.link" v-bindcolon:data-page="output.pagination.paging.next.number"><i class="fas fa-angle-right"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bindcolon:href="output.pagination.paging.end.link" v-bindcolon:data-page="output.pagination.paging.end.number"><i class="fas fa-angle-double-right"></i></a></li>
+									</ul>
+								</nav>
+							</div>
+							<!-- PAGINATION END -->
+						</div>
+						<div v-else class="my-4 px-3 py-4 text-center rounded-3 d-flex align-items-center justify-content-center"><i class="far fa-bell me-2"></i> <small>활동 내역이 없습니다.</small></div>
+						<!-- MY NOTICE LIST END -->
 					</div>
-					<div class="my-5 text-center">
-						<button class="w-50 px-4 btn btn-dark fw-bold" type="submit">회원가입</button>
-						<p class="my-3"><a href="./sign-in.html">회원 로그인</a><span class="mx-2">|</span><a href="#">비밀번호 찾기</a></p>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</main>
