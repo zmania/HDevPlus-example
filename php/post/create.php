@@ -1,5 +1,5 @@
 <?php
-$viewID = "ADD_POST";
+$dataID = "ADD_POST";
 
 ?>
 <? include("../../_common/include/header.php"); ?>

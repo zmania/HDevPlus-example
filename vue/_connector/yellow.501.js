@@ -1,6 +1,6 @@
 let output = {};
 let app;
-const secureKey = '385533ef360e89d7c5c898b00963c1d5a83b426bb7a48da52c37fe1410329bb1';
+const secureKey = '1e3eccc4914f2b1cb1ae0459413e7b0fc51f4ac2d52f6512a9d4e91e335fee6e';
 $(function () {
     let session_id;
     session_id = localStorage.getItem('session_id');
@@ -24,7 +24,7 @@ $(function () {
         requestData.api_token = api_token;
     }
     $.ajax({
-        url: "https://api.hanbnc.com/request.js",
+        url: "https://local.api.hanbnc.com/request.js",
         crossDomain: true,
         dataType: 'json',
         type: 'post',

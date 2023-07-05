@@ -1,5 +1,5 @@
 <?php
-if($viewID) {
+if($dataID) {
 	include($_SERVER["DOCUMENT_ROOT"] . "/_connector/yellow.501.php");
 }
 ?>

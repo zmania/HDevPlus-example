@@ -23,7 +23,7 @@ class HFConnector
 			'samesite' => 'None'
 		]);
 		$this->resCURL = curl_init("http://api.hanbnc.com/request");
-		$this->arrHeader[] = 'view-id:' . $arrRequestData['viewID'];
+		$this->arrHeader[] = 'view-id:' . $arrRequestData['dataID'];
 		$this->arrHeader[] = 'api-token:' . $this->strAPIToken;
 		$this->arrHeader[] = 'security-key:' . $this->strSecureKey;
 		$arrRequestData['session_id'] = $_COOKIE['session_id'];

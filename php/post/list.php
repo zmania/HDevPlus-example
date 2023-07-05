@@ -1,5 +1,5 @@
 <?php
-$viewID = "GET_POST_LIST";
+$dataID = "GET_POST_LIST";
 include($_SERVER["DOCUMENT_ROOT"]."/_connector/yellow.501.php");
 ?>
 <!DOCTYPE html>
