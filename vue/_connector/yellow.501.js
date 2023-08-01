@@ -1,5 +1,6 @@
 let output = {};
 let app;
+let components = {};
 const secureKey = '1e3eccc4914f2b1cb1ae0459413e7b0fc51f4ac2d52f6512a9d4e91e335fee6e';
 $(function () {
     let session_id;
@@ -23,6 +24,7 @@ $(function () {
     if (api_token) {
         requestData.api_token = api_token;
     }
+    console.log(api_token);
     $.ajax({
         url: "https://local.api.hanbnc.com/request.js",
         crossDomain: true,
@@ -51,6 +53,7 @@ $(function () {
                 if ($('#app').length > 0) {
                     const {createApp} = Vue
                     app = createApp({
+                        components:components,
                         data() {
                             return {
                                 output: output
@@ -61,11 +64,14 @@ $(function () {
                                 oValidation = new Validation();
                             }
                             $('#app').show();
+                            // init();
                         }
                     }).mount('#app');
                 } else {
-                    alert('#app element가 없습니다');
+                    // alert('#app element가 없습니다');
                 }
+                // console.log("Recibes: ", jsonResult);
+                console.log(output.session.id);
             }
         }
     });

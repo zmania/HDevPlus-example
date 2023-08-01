@@ -15,7 +15,7 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <!-- REQUEST DATA -->
     <script>
-        const requestData = {'dataID': 'GET_FORM', 'form_key': 'c81e728d9d4c2f636f067f89cc14862c'};
+        const requestData = {'dataID': 'DEFAULT', 'widget': ['most_read_post', 'test1'], 'index': true};
     </script>
     <style>
         #app {
@@ -27,17 +27,28 @@
 <div id="app">
     <gnb-comp :output="output"></gnb-comp>
     <div class="container">
-        <main>
+        <main class="my-4">
             <div class="row g-5">
-                <div class="col-12">
-                    <div class="text-center">
-                        <h2 class="mt-5 mb-3">테스트 웹 폼</h2>
+                <div class="col-6">
+                    <div>
+                        <h6 class="mb-3">위젯 1 게시물</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-transparent px-1 d-flex align-items-center justify-content-between" v-for="post in output.widget.most_read_post.content_list">
+                                <a :href="'/community/detail?post_key='+post.post_key" class="text-black"><small class="crop-text-1">{{ post.subject }}</small></a>
+                                <small>{{post.create_date}}</small>
+                            </li>
+                        </ul>
                     </div>
-                    <p class="fs-2 my-5 py-5 text-center">
-                        전송이 완료되었습니다.
-                    </p>
-                    <div class="my-4 text-center mb-5">
-                        <a href="./index.html" class="h-btn-cancel-save mx-1 btn btn-dark px-4">확인</a>
+                </div>
+                <div class="col-6">
+                    <div>
+                        <h6 class="mb-3">위젯 2 게시물</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-transparent px-1 d-flex align-items-center justify-content-between" v-for="post in output.widget.test1.content_list">
+                                <a :href="'/community/detail?post_key='+post.post_key" class="text-black"><small class="crop-text-1">{{ post.subject }}</small></a>
+                                <small>{{post.create_date}}</small>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -50,6 +61,7 @@
 <!-- JQUERY REQUIRED -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- VUE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
