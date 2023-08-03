@@ -1,6 +1,5 @@
 let output = {};
 let app;
-let components = {};
 const secureKey = '1e3eccc4914f2b1cb1ae0459413e7b0fc51f4ac2d52f6512a9d4e91e335fee6e';
 $(function () {
     let session_id;
@@ -26,7 +25,7 @@ $(function () {
     }
     console.log(api_token);
     $.ajax({
-        url: "https://local.api.hanbnc.com/request.js",
+        url: "https://api.hanbnc.com/request.js",
         crossDomain: true,
         dataType: 'json',
         type: 'post',
@@ -37,23 +36,26 @@ $(function () {
             if(output.redirect_url){
                 document.location.href = output.redirect_url;
             }else{
+                output.icon = jsonForumIcon;
+
                 let eleScript;
-                if (Array.isArray(output.env.js)) {
+                if (output.env.js instanceof Array) {
                     for (let intKey in output.env.js) {
                         eleScript = document.createElement('script');
                         eleScript.setAttribute('src', output.env.js[intKey]);
-                        document.head.appendChild(eleScript)
+                        document.head.appendChild(eleScript);
                     }
-                } else {
-                    eleScript = document.createElement('script');
-                    eleScript.setAttribute('src', output.env.js);
-                    document.head.appendChild(eleScript)
+                } else if (output.env.js instanceof Object) {
+                    for (let key in output.env.js) {
+                        eleScript = document.createElement('script');
+                        eleScript.setAttribute('src', output.env.js[key]);
+                        document.head.appendChild(eleScript);
+                    }
                 }
 
                 if ($('#app').length > 0) {
                     const {createApp} = Vue
                     app = createApp({
-                        components:components,
                         data() {
                             return {
                                 output: output
@@ -64,14 +66,12 @@ $(function () {
                                 oValidation = new Validation();
                             }
                             $('#app').show();
-                            // init();
+                            init();
                         }
                     }).mount('#app');
                 } else {
-                    // alert('#app element가 없습니다');
+                    alert('#app element가 없습니다');
                 }
-                // console.log("Recibes: ", jsonResult);
-                console.log(output.session.id);
             }
         }
     });
