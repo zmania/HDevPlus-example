@@ -16,13 +16,13 @@
         const requestData = {'dataID': 'GET_POST_LIST', 'list_per_page': 2, 'page_link_url':'list.html','search_keyword': new URLSearchParams(window.location.search).get('search_keyword'), 'page': new URLSearchParams(window.location.search).get('page') ? new URLSearchParams(window.location.search).get('page') : 1};
 	</script>
 	<style>
-        #app {
+        [v-cloak] {
             display: none;
         }
 	</style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <gnb-comp :output="output"></gnb-comp>
 	<div class="container">
 		<main>

@@ -16,13 +16,13 @@
         const requestData = {'dataID': 'MODIFY_USER', 'fail_redirect_url': './login.html', 'password': '2.nothing'};
     </script>
     <style>
-        #app {
+        [v-cloak] {
             display: none;
         }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <gnb-comp :output="output"></gnb-comp>
     <div class="container">
         <main>

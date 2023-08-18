@@ -27,8 +27,6 @@ $(function () {
             if(output.redirect_url){
                 document.location.href = output.redirect_url;
             }else{
-                output.icon = jsonForumIcon;
-
                 let eleScript;
                 if (output.env.js instanceof Array) {
                     for (let intKey in output.env.js) {
