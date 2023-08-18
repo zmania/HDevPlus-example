@@ -1,5 +1,6 @@
 let output = {};
 let app;
+let components = {};
 const secureKey = 'ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1';
 $(function () {
     let session_id;
@@ -45,6 +46,7 @@ $(function () {
                 if ($('#app').length > 0) {
                     const {createApp} = Vue
                     app = createApp({
+                        components:components,
                         data() {
                             return {
                                 output: output
