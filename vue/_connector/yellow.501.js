@@ -1,19 +1,11 @@
 let output = {};
 let app;
-const secureKey = '1e3eccc4914f2b1cb1ae0459413e7b0fc51f4ac2d52f6512a9d4e91e335fee6e';
+const secureKey = 'ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1';
 $(function () {
     let session_id;
     session_id = localStorage.getItem('session_id');
-    if(!session_id) {
-        session_id = document.cookie.match('(^|;) ?session_id=([^;]*)(;|$)');
-        session_id = session_id ? session_id[2] : null;
-    }
     let api_token;
     api_token = localStorage.getItem('api_token');
-    if(!api_token) {
-        api_token = document.cookie.match('(^|;) ?api_token=([^;]*)(;|$)');
-        api_token = api_token ? api_token[2] : null;
-    }
     if (session_id) {
         requestData.session_id = session_id;
     }
@@ -23,7 +15,6 @@ $(function () {
     if (api_token) {
         requestData.api_token = api_token;
     }
-    console.log(api_token);
     $.ajax({
         url: "https://api.hanbnc.com/request.js",
         crossDomain: true,
@@ -65,13 +56,12 @@ $(function () {
                             if (typeof (oValidation) != 'undefined') {
                                 oValidation = new Validation();
                             }
-                            $('#app').show();
-                            init();
                         }
                     }).mount('#app');
                 } else {
-                    alert('#app element가 없습니다');
+                    h_alert('#app element가 없습니다');
                 }
+                console.log(output.session.id);
             }
         }
     });

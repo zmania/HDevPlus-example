@@ -10,7 +10,7 @@ class HFConnector
 	private $arrHeader = [];
 	private $arrRequestData = [];
 	private $strAPIToken;
-	private $strSecureKey = "385533ef360e89d7c5c898b00963c1d5a83b426bb7a48da52c37fe1410329bb1";
+	private $strSecureKey = "ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1";
 	public $result;
 	public $response;
 	public function __construct($arrRequestData)
@@ -19,7 +19,6 @@ class HFConnector
 			'expires' => time() + (60 * 60 * 24 * 365),
 			'path' => '/',
 			'secure' => true,
-//			'httponly' => true,
 			'samesite' => 'None'
 		]);
 		$this->resCURL = curl_init("http://api.hanbnc.com/request");
@@ -62,14 +61,12 @@ class HFConnector
 				'expires' => time() + (60 * 60 * 24 * 365),
 				'path' => '/',
 				'secure' => true,
-//				'httponly' => true,
 				'samesite' => 'None'
 			]);
 			$boolResult = setcookie("api_token", $arrReturn['session']['api_token'], [
 				'expires' => time() + (60 * 60 * 24 * 365),
 				'path' => '/',
 				'secure' => true,
-//				'httponly' => true,
 				'samesite' => 'None'
 			]);
 		} else {
