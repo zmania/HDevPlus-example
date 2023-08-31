@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.111.3">
+	<title>H:Dev+ Sample Code</title>
+
+	<!-- BOOTSTRAP OPTIONAL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.core.css">
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<!-- REQUEST DATA -->
+	<script>
+        const requestData = {'dataID': 'ADD_POST', 'search_keyword': new URLSearchParams(window.location.search).get('search_keyword')};
+	</script>
+	<style>
+        [v-cloak] {
+            display: none;
+        }
+	</style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <gnb-comp :output="output"></gnb-comp>
+	<div class="container">
+		<main>
+			<div class="row g-5">
+				<div class="col-12">
+					<div class="text-center">
+						<h2 class="mt-5 mb-3">게시물 등록</h2>
+					</div>
+					<form id="frm_save_post" data-validation-alert="no">
+						<input type="hidden" name="return_url" value="../post/list.html"/>
+						<div class="row">
+							<div class="col-12">
+								<div class="form-label">게시판</div>
+								<div id="">
+									<div class="bg-gray-light rounded-3 my-3 py-3">
+										<div class="row">
+											<div class="col-6 col-lg-3" v-for="result in output.bbs_list">
+												<div class="me-2 px-3 py-2 my-2 bg-secondary rounded-3 d-flex justify-content-between align-items-center">
+													<label class="crop-text-1 text-white" :for="'bbs_'+result.seq">{{result.bbs_name}}</label>
+													<input type="radio" class="form-check-input" :id="'bbs_'+result.seq" name="bbs_seq" :checked="output.post ? output.post[0].bbs_seq == result.seq : false" :value="result.seq" autocomplete="off">
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="invalid-feedback">
+										게시판을 선택하세요
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 mb-3">
+								<label for="subject" class="form-label">제목</label>
+								<input type="text" :value="output.post ? output.post[0].subject : ''" class="form-control h-validation" id="subject" name="subject" data-validation="not-empty" placeholder="제목을 입력하세요">
+								<small class="invalid-feedback">
+									제목을 입력하세요
+								</small>
+							</div>
+							<div class="row" v-if="!output.user.auth_flg">
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="email" class="form-label">이메일</label>
+									<input type="text" :value="output.post ? output.post[0].email : ''" class="form-control h-validation" id="email" name="email" data-validation="email" data-validation-type="replace" data-invalid-message="올바른 이메일을 입력하세요" placeholder="이메일을 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="cell_phone" class="form-label">휴대폰 번호</label>
+									<input type="text" :value="output.post ? output.post[0].cell_phone : ''" class="form-control" id="cell_phone" name="cell_phone" data-validation="phone" data-validation-type="replace" data-invalid-message="올바른 휴대폰 번호를 입력하세요" placeholder="휴대폰 번호를 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="reg_name" class="form-label">이름</label>
+									<input type="text" :value="output.post ? output.post[0].reg_name : ''" class="form-control h-validation" id="reg_name" name="reg_name" data-validation="not-empty" placeholder="이름을 입력하세요">
+								</div>
+								<div class="col-12 col-lg-6 mb-3">
+									<label for="reg_name" class="form-label">비밀번호</label>
+									<input type="password" :value="output.post ? output.post[0].password : ''" class="form-control" id="password" name="password" data-validation="password-4-8" data-invalid-message="올바른 비밀번호를 입력하세요" placeholder="숫자,영문 대 소문자 및 특수문자를 포함한 4-8글자">
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 mb-3" style="overflow: auto;">
+								<div for="content" class="form-label">내용</div>
+								<div data-editor="content_1" class="h-post-content" v-html="output.post ? output.post[0].contents[0].content : ''" style="height:400px;"></div>
+								<input type="hidden" id="content_1" :name="'content['+(output.post ? output.post[0].contents[0].seq : '')+']'" data-validation="not-empty" :value="output.post ? output.post[0].contents[0].content : ''" v-if="output.post"/>
+								<small class="invalid-feedback">
+									내용을 입력하세요
+								</small>
+								<div class="my-4 text-center mb-5">
+									<button type="submit" class="mx-1 btn btn-dark px-4">저장</button>
+									<a href="./list.html" class="h-btn-cancel-save mx-1 btn btn-dark px-4">취소</a>
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 text-center mb-5">
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</main>
+    <bottom :output="output"></bottom>
+	</div>
+</div>
+
+<!-- JQUERY REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<!-- VUE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
+<!-- BOOTSTRAP OPTIONAL -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<!-- CUSTOM -->
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="../_connector/yellow.501.js"></script>
+<script src="../components/gnb.js"></script>
+<script src="../components/bottom.js"></script>
+</body>
+</html>

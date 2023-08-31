@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container">
+  <main>
+    <div class="row g-5">
+      <div class="col-12">
+        <div class="text-center">
+          <h2 class="mt-5 mb-3">게시물 목록</h2>
+        </div>
+        <div class="py-2 d-flex justify-content-between align-items-center">
+          <small class="smaller text-black">
+            Result <span th:text="${output.pagination.total_result_num}"></span> post / total <span th:text="${output.total_post_count}"></span> post
+          </small>
+          <a th:href="${output.user.auth_flg ? '/thymeleaf/post/add' : '/thymeleaf/member/login'}"
+             class="btn btn-sm btn-dark d-flex justify-content-between align-items-center lh-1">
+            <small class="smaller">ADD</small>
+          </a>
+        </div>
+
+        <div id="post_list" data-load-type="page-link" class="row h-post-list">
+          <!-- Post List -->
+          <div class="col-12 my-3" th:each="post : ${output.post_list}" th:if="${#lists.size(output.post_list) > 0}">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <small th:text="${post.reg_name}"></small>
+                  <small th:text="${post.create_date}"></small>
+                </div>
+                <hr/>
+                <h1 class="fs-3 card-title py-3">
+                  <a th:href="@{'/thymeleaf/post/view?post_key=' + ${post.post_key}}" th:utext="${post.subject}"></a>
+                </h1>
+                <p class="card-text" th:utext="${post.content}"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- No Post Message -->
+          <div class="col-12" th:unless="${#lists.size(output.post_list) > 0}">
+            <div class="my-2 d-flex justify-content-center align-items-center alert alert-light">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                <!-- SVG content remains unchanged -->
+              </svg>
+              <span class="ms-2">게시물이 없습니다.</span>
+            </div>
+          </div>
+
+        </div>
+        <div>
+          <nav>
+            <ul class="pagination justify-content-center mb-0">
+              <li class="page-item">
+                <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.first.link}" th:data-page="${output.pagination.paging.first.number}">
+                  <i class="fas fa-angle-double-left"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.prev.link}" th:data-page="${output.pagination.paging.prev.number}">
+                  <i class="fas fa-angle-left"></i>
+                </a>
+              </li>
+              <!-- output.pagination.paging.page가 정의되었을 때 -->
+              <li class="page-item h-page-numbers" th:if="${output.pagination?.paging?.page != null && page != null}" th:each="page : ${output.pagination.paging.page}">
+                <a th:href="${page.link}" th:data-page="${page.number}" th:class="${T(java.lang.Integer).parseInt(output.pagination.page) == T(java.lang.Integer).parseInt(page.number) ? 'page-link active' : 'page-link'}" th:text="${page.number}"></a>
+              </li>
+
+              <!-- output.pagination.paging.page가 정의되지 않았을 때 -->
+              <li class="page-item" th:if="${output.pagination.paging.page == null || #lists.size(output.pagination.paging.page) == 0}">
+                <a class="border-0 page-link active">122</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.next.link}" th:data-page="${output.pagination.paging.next.number}">
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.end.link}" th:data-page="${output.pagination.paging.end.number}">
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

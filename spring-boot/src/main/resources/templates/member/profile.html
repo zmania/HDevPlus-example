@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <!-- USER PROFILE START -->
+            <div class="mb-3 row rounded-3 py-3">
+                <div class="col-12 col-md-12 col-lg-auto mb-3 mb-sm-0 d-flex justify-content-center align-items-center">
+                    <div class="mx-4" style="width:6rem;">
+                        <img th:src="${output.user.avatar_url}" class="img-fluid">
+                    </div>
+                </div>
+                <!-- media-img -->
+                <div class="w-100 my-2 ps-3 py-3 me-4 rounded-3 col-12 col-md-12 col-lg media-body d-flex flex-column align-items-start justify-content-center">
+                    <div class="w-100 text-center text-lg-start d-flex align-items-center justify-content-start">
+                        <h4 th:text="${output.user.nickname}"></h4>
+                        <small class="d-block my-2 ms-2" th:text="(${output.user.name})"></small>
+                    </div>
+                    <div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
+                        <div class="col-6 col-sm-3">
+                            <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Level : <span th:text="${#numbers.formatInteger(output.member[0].level, 0, 'COMMA')}"></span></span>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Post : <span th:text="${#numbers.formatInteger(output.member_post_count, 0, 'COMMA')}"></span></span>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Comment : <span th:text="${#numbers.formatInteger(output.member_comment_count, 0, 'COMMA')}"></span></span>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <span class="w-100 mx-3 ms-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Like : <span th:text="${#numbers.formatInteger(output.member_like_count, 0, 'COMMA')}"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- USER PROFILE START -->
+            <div th:replace="fragments/mypage-sub-menu :: mypage-sub-menu"></div>
+            <div>
+                <div class="py-2">
+                    <div class="">
+                        <div class="p-3">
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>이메일</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div th:text="${output.member[0].email}"></div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>휴대전화</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div th:text="${output.member[0].cell_phone}"></div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>이름</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div th:text="${output.member[0].name}"></div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>닉네임</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div th:text="${output.member[0].nickname}"></div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>생일</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div th:text="${output.member[0].barth_y + '년 ' + output.member[0].barth_m + '월 ' + output.member[0].barth_d + '일'}"></div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="py-3 border-bottom">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-5">
+                                        <h6>소식 및 정보 수신</h6>
+                                    </div>
+                                    <!-- col -->
+                                    <div class="col-md">
+                                        <div>
+                                            <span th:if="${output.member[0].receive_message_flg == 'Y'}" class="badge badge-pill p-2 bg-warning fw-bold">수신중</span>
+                                            <span th:if="${output.member[0].receive_message_flg != 'Y'}" class="badge badge-pill p-2 bg-secondary fw-bold">미수신</span>
+                                        </div>
+                                    </div>
+                                    <!-- col -->
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <div class="my-5 text-center">
+                                <div class="my-4 text-center mb-5">
+                                    <a href="/thymeleaf/member/auth" class="mx-1 btn btn-primary px-4">회원정보 수정</a>
+                                    <a href="/thymeleaf/member/change-pwd" class="mx-1 btn btn-secondary px-4">비밀번호 변경</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

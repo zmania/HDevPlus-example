@@ -1,0 +1,54 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container my-5">
+    <div class="position-relative p-5 text-center text-muted border-bottom">
+        <svg class="bi mt-5 mb-3" width="48" height="48"><use xlink:href="#check2-circle"></use></svg>
+        <h1 class="text-body-emphasis">Jumbotron</h1>
+        <p class="col-lg-6 mx-auto mb-4">
+            H:DEV+는 백엔드 플랫폼으로 백엔드 없이 Front-End 개발을 빠르고 쉽게 할 수 있도록 도와줍니다. H:DEV+통해 백엔드 개발 언어에 종속적이지 않고 독립적으로 Front-End 개발이 가능합니다.
+        </p>
+        <button class="btn btn-primary px-5 mb-5" type="button">
+            Button
+        </button>
+    </div>
+</div>
+<div class="container">
+    <main class="my-4">
+        <div class="row g-5">
+            <div class="col-12 col-lg-6">
+                <div>
+                    <h6 class="mb-3">위젯 1 게시물</h6>
+                    <ul class="list-group list-group-flush">
+                        <li th:each="post : ${output.widget.most_read_post.content_list}" class="list-group-item bg-transparent px-1 d-flex align-items-center justify-content-between">
+                            <a th:href="@{${'/thymeleaf/post/view?post_key=' + post.post_key}}" class="text-black"><small class="crop-text-1" th:text="${post.subject}"></small></a>
+                            <small th:text="${post.create_date}"></small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div>
+                    <h6 class="mb-3">위젯 2 게시물</h6>
+                    <ul class="list-group list-group-flush">
+                        <li th:each="post : ${output.widget.test1.content_list}" class="list-group-item bg-transparent px-1 d-flex align-items-center justify-content-between">
+                            <a th:href="@{${'/thymeleaf/post/view?post_key=' + post.content_key}}" class="text-black"><small class="crop-text-1" th:text="${post.subject}"></small></a>
+                            <small th:text="${post.create_date}"></small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+<!--
+<div th:each="script_url : ${output}">
+    <p th:text="${script_url}"></p>
+</div>
+-->
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

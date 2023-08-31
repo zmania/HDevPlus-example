@@ -1,0 +1,86 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container">
+    <main>
+        <div class="row g-5">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="mt-5 mb-3">테스트 웹 폼</h2>
+                </div>
+                <form id="frm_web_form" data-validation-alert="no" data-complete-type="alert" data-complete-message="전송이 완료되었습니다.">
+                    <input type="hidden" name="form_code" value="contact"/>
+                    <input type="hidden" name="return_url" value="/example/web_form/completed.html"/>
+                    <div class="row">
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="answerer_name" class="form-label">이름</label>
+                            <input type="text" class="form-control h-validation" id="answerer_name" name="answerer_name" data-validation="not-empty" placeholder="이름을 입력하세요 입력하세요">
+                            <small class="invalid-feedback">
+                                이름을 입력하세요
+                            </small>
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="answerer_email" class="form-label">이메일</label>
+                            <input type="text" class="form-control h-validation" id="answerer_email" name="answerer_email" data-validation="email" placeholder="이메일을 입력하세요 입력하세요">
+                            <small class="invalid-feedback">
+                                이메일을 입력하세요
+                            </small>
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label for="answer_1_value" class="form-label">H:DEV+ 알게된 경로</label>
+                            <input type="hidden" name="answer[1][label]" value="H:DEV+ 알게된 경로"/>
+                            <select name="answer[1][value]" id="answer_1_value" data-validation="not-empty" class="form-control">
+                                <option value="">선택</option>
+                                <option value="검색을 통해">검색을 통해</option>
+                                <option value="지인을 통해">지인을 통해</option>
+                                <option value="미디어 통해">미디어 통해</option>
+                                <option value="광고를 통해">광고를 통해</option>
+                            </select>
+                            <small class="invalid-feedback">
+                                H:DEV+ 알게된 경로를 선택하세요
+                            </small>
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label class="form-label">자주 사용하는 기능</label>
+                            <input type="hidden" name="answer[2][label]" value="자주 사용하는 기능" class="form-control"/>
+                            <div class="form-control" data-validation="check-limit" data-validation-limit="1-3">
+                                <label class="me-4"><input type="checkbox" class="form-check-input" name="answer[2][value][]" value="포펌"> 포럼</label>
+                                <label class="me-4"><input type="checkbox" class="form-check-input" name="answer[2][value][]" value="회원"> 회원</label>
+                                <label class="me-4"><input type="checkbox" class="form-check-input" name="answer[2][value][]" value="웹폼"> 웹폼</label>
+                                <label class="me-4"><input type="checkbox" class="form-check-input" name="answer[2][value][]" value="기타"> 기타</label>
+                            </div>
+                            <small class="invalid-feedback">
+                                자주 사용하는 기능을 선택하세요 (최소 1개이상 3개까지)
+                            </small>
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3">
+                            <label class="form-label">가장 좋아하는 동물</label>
+                            <input type="hidden" name="answer[3][label]" value="가장 좋아하는 동물"/>
+                            <div class="form-control" data-validation="radio-check">
+                                <label class="me-4"><input type="radio" class="form-check-input" name="answer[3][value]" value="호랑이"> 호랑이</label>
+                                <label class="me-4"><input type="radio" class="form-check-input" name="answer[3][value]" value="고양이"> 고양이</label>
+                                <label class="me-4"><input type="radio" class="form-check-input" name="answer[3][value]" value="강아지"> 강아지</label>
+                                <label class="me-4"><input type="radio" class="form-check-input" name="answer[3][value]" value="미꾸라지"> 미꾸라지</label>
+                            </div>
+                            <small class="invalid-feedback">
+                                가장 좋아하는 동물을 선택하세요
+                            </small>
+                        </div>
+                        <div class="col-12 col-lg-12 mb-3" style="overflow: auto;">
+                            <div class="my-4 text-center mb-5">
+                                <button type="submit" class="mx-1 btn btn-dark px-4">저장</button>
+                                <a href="/thymeleaf/" class="h-btn-cancel-save mx-1 btn btn-dark px-4">취소</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

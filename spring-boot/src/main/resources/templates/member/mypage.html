@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="px-lg-4 mb-5">
+                <!-- USER PROFILE START -->
+                <div class="mb-3 row rounded-3 py-3">
+                    <div class="col-12 col-md-12 col-lg-auto mb-3 mb-sm-0 d-flex justify-content-center align-items-center">
+                        <div class="mx-4" style="width:6rem;">
+                            <img th:src="${output.user.avatar_url}" class="img-fluid">
+                        </div>
+                    </div><!-- media-img -->
+                    <div class="w-100 my-2 ps-3 py-3 me-4 rounded-3 col-12 col-md-12 col-lg media-body d-flex flex-column align-items-start justify-content-center">
+                        <div class="w-100 text-center text-lg-start d-flex align-items-center justify-content-start">
+                            <h4 th:text="${output.user.nickname}"></h4>
+                            <small class="d-block my-2 ms-2" th:text="(${output.user.name})"></small>
+                        </div>
+                        <div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
+                            <div class="col-6 col-sm-3">
+                                <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Level : <span th:text="${#numbers.formatInteger(output.member[0].level, 0, 'COMMA')}"></span></span>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Post : <span th:text="${#numbers.formatInteger(output.member_post_count, 0, 'COMMA')}"></span></span>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Comment : <span th:text="${#numbers.formatInteger(output.member_comment_count, 0, 'COMMA')}"></span></span>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <span class="w-100 mx-3 ms-3 mt-2 badge text-white rounded-pill bg-secondary p-2"> Like : <span th:text="${#numbers.formatInteger(output.member_like_count, 0, 'COMMA')}"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- USER PROFILE START -->
+                <div th:replace="fragments/mypage-sub-menu :: mypage-sub-menu"></div>
+                <!-- MY NOTICE LIST START -->
+                <div th:if="${output.notice_list != null && output.notice_list.size() > 0}">
+                    <ul class="list-group list-group-flush my-5">
+                        <li class="list-group-item py-3 bg-transparent" th:each="result : ${output.notice_list}">
+                            <p class="d-sm-flex flex-wrap align-items-center mb-2">
+                                <a href="" class="avatar avatar-sm me-2 d-none d-sm-inline"><img th:src="${result.avatar_url}" alt=""></a>
+                                <span class="fs-sm" th:utext="${result.notice_message}"></span>
+                                <span class="my-2 text-secondary text-nowrap fs-xs ms-auto d-flex align-items-center justify-content-end">
+<i class="far fa-clock me-1"></i><small th:text="${result.create_date}"></small>
+</span>
+                            </p>
+                            <div class="card border-0" th:if="${result.notice_content}">
+                                <div class="card-body small" th:utext="${result.notice_content}"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- PAGINATION START -->
+                    <div class="mt-2">
+                        <nav>
+                            <ul class="pagination justify-content-center mb-0">
+                                <!-- Pagination elements converted similarly -->
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- PAGINATION END -->
+                </div>
+                <div th:unless="${output.notice_list != null || output.notice_list.size() < 1}" class="my-4 px-3 py-4 text-center rounded-3 d-flex align-items-center justify-content-center"><i class="far fa-bell me-2"></i> <small>활동 내역이 없습니다.</small></div>
+                <!-- MY NOTICE LIST END -->
+            </div>
+            <div>
+                <nav>
+                    <ul class="pagination justify-content-center mb-0">
+                        <li class="page-item">
+                            <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.first.link}" th:data-page="${output.pagination.paging.first.number}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.prev.link}" th:data-page="${output.pagination.paging.prev.number}">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <!-- output.pagination.paging.page가 정의되었을 때 -->
+                        <li class="page-item h-page-numbers" th:if="${output.pagination?.paging?.page != null && page != null}" th:each="page : ${output.pagination.paging.page}">
+                            <a th:href="${page.link}" th:data-page="${page.number}" th:class="${T(java.lang.Integer).parseInt(output.pagination.page) == T(java.lang.Integer).parseInt(page.number) ? 'page-link active' : 'page-link'}" th:text="${page.number}"></a>
+                        </li>
+
+                        <!-- output.pagination.paging.page가 정의되지 않았을 때 -->
+                        <li class="page-item" th:if="${output.pagination.paging.page == null || #lists.size(output.pagination.paging.page) == 0}">
+                            <a class="border-0 page-link active">122</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.next.link}" th:data-page="${output.pagination.paging.next.number}">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link border-0 bg-transparent" th:href="${output.pagination.paging.end.link}" th:data-page="${output.pagination.paging.end.number}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

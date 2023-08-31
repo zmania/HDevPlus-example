@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/gnb :: gnb"></div>
+<div class="container">
+    <main>
+        <div class="row g-5">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="mt-5 mb-3">게시물 목록</h2>
+                </div>
+
+
+                <div id="post" th:attr="data-post-key=${output.post[0].post_key}" class="me-3">
+                    <div class="py-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                    <div>
+                                        <small class="ms-1 fw-bold" th:text="${output.post[0].bbs_name}"></small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center"
+                                         th:if="${output.user.auth_flg && output.post[0].member_seq == output.user.seq}">
+                                        <a th:href="@{'./modify?post_key=' + ${output.post[0].post_key}}" class="mx-1 btn btn-dark d-flex justify-content-between align-items-center lh-1"><small
+                                                class="smaller d-none d-md-block">수정</small></a>
+                                        <a href="#" data-return-url="./list"
+                                           th:attr="data-post-key=${output.post[0].post_key}"
+                                           class="h-btn-delete mx-1 btn btn-dark d-flex justify-content-between align-items-center lh-1"><small
+                                                class="smaller d-none d-md-block">삭제</small></a>
+                                    </div>
+                                </div>
+                                <h1 class="fs-3 mt-4 mb-4" th:text="${output.post[0].subject}"
+                                    style="line-height: 1.5;"></h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-start">
+                                <div class="d-flex justify-content-start align-items-center"
+                                     th:if="${output.post[0].avatar_url}">
+                                    <span th:text="${output.post[0].create_date_type_ymhi + ' by '}"></span>
+                                    <div class="mx-2">
+                                        <img th:src="${output.post[0].avatar_url}" style="max-width:1.5rem;"/>
+                                        <span th:text="${output.post[0].reg_name}"></span>
+                                    </div>
+                                </div>
+                                <small class="ms-2 d-block text-nowrap crop-text-1 w-100"
+                                       th:unless="${output.post[0].avatar_url}">
+                                    <span th:text="${output.post[0].create_date_type_ymhi + ' by '}"></span>
+                                    <i class="ms-2 fas fa-user-circle"></i>
+                                    <span th:text="${output.post[0].reg_name}"></span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-4"><p class="text-justify"
+                                                     th:utext="${output.post[0].contents[0].content}"/></div>
+                                <div class="d-flex align-items-center justify-content-start my-2">
+                                    <span th:each="tag : ${output.post[0].tags}"
+                                          class="badge bg-white border me-1 fw-normal text-hbnc-secondary me-2 px-3 py-2"
+                                          th:text="${tag.tag}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_comment" class="hash-link">
+                    <!-- 댓글 헤딩 부분 -->
+                    <div class="comment mt-5 me-3">
+                        <!-- 댓글 입력 폼 -->
+                        <form id="frm_comment" class="my-4">
+                            <!-- 댓글 개수 헤더 -->
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h4>댓글</h4>
+                                <small>댓글 총 개수: <span
+                                        th:text="${#numbers.formatInteger(output.post[0].comment_count, 0, 'COMMA')}"></span></small>
+                            </div>
+                            <!-- 댓글 입력 상자 -->
+                            <div class="py-4 border-0 border-top border-bottom">
+                                <!-- 인증된 사용자의 댓글 입력 -->
+                                <div class="input-group mb-0" th:if="${output.user.auth_flg == true}">
+                                    <textarea id="comment" name="comment" class="form-control" placeholder="댓글을 입력하세요"
+                                              style="height: 40.8px;"></textarea>
+                                    <button class="btn btn-dark" type="button" id="btn_save_comment">저장</button>
+                                </div>
+                                <!-- 인증되지 않은 사용자 정보 -->
+                                <div class="input-group mb-0" th:if="${output.user.auth_flg == false}">
+                                    <div class="form-control" style="height: 40.8px;">로그인 후 이용하실 수 있습니다.</div>
+                                    <a class="btn border-hbnc-primary bg-hanbnc-primary-3 border border-3 rounded-0"
+                                       href="/thymeleaf/member/login">로그인</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="me-3">
+                        <!-- 기본 댓글 목록 -->
+                        <div class="pb-4 order-0">
+                            <div class="comment-list">
+                                <div th:each="comment : ${output.post[0].comment_list}" class="h-div-comment" th:attr="data-comment-key=${comment.comment_key}">
+                                    <div class="border-bottom px-1 py-3 position-relative post-comment-item">
+                                        <!-- 댓글 작성자 및 작성 일자 -->
+                                        <div class="d-flex justify-content-between align-items-baseline">
+                                            <div>
+                                                <strong class="me-1" th:text="${comment.name}"></strong>
+                                            </div>
+                                            <small class="comment-date font-roboto"
+                                                   th:text="${comment.create_date}"></small>
+                                        </div>
+                                        <!-- 댓글 본문 -->
+                                        <div class="comment-body">
+                                            <p class="my-2 py-3 mb-0 rounded-2"
+                                               th:utext="${comment.comment.replace('\n', '<br/>')}"></p>
+                                        </div>
+                                        <!-- 댓글 수정, 삭제, 답글 버튼 -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <!-- 답글 보기 버튼 (답글이 있을 경우만 표시) -->
+                                            <a href="#" th:if="${#lists.size(comment.reply_comment) > 0}"
+                                               class="h-btn-show-reply-comment">
+                                                <small th:text="'답글 ' + ${#numbers.formatInteger(comment.reply_comment_cnt, 0, 'COMMA')} + '개 보기'"></small>
+                                            </a>
+                                            <span th:if="${#lists.size(comment.reply_comment) == 0}">&nbsp;</span>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <!-- 사용자 본인의 댓글에만 수정/삭제 버튼 표시 -->
+                                                <a th:if="${output.user.auth_flg and comment.member_seq == output.user.seq}"
+                                                   href="#"
+                                                   class="h-btn-reply-modify btn btn-outline-dark btn-sm ms-2 my-2 small">수정</a>
+                                                <a th:if="${output.user.auth_flg and comment.member_seq == output.user.seq}"
+                                                   href="#"
+                                                   class="h-btn-reply-delete btn btn-outline-dark btn-sm ms-2 my-2 small">삭제</a>
+                                                <!-- 답글 작성 버튼 -->
+                                                <a href="#"
+                                                   class="h-btn-reply-comment btn btn-outline-dark btn-sm ms-2 my-2 small">답글</a>
+                                            </div>
+                                        </div>
+
+                                        <!-- 답글 작성 폼 (기본적으로 숨김) -->
+                                        <form class="my-3 h-form-reply-comment" style="display:none;">
+                                            <input type="hidden" name="parent_comment_key"
+                                                   th:value="${comment.comment_key}"/>
+                                            <div class="mb-0 mt-2">
+                                                <textarea type="text" rows="1" class="form-control comment-textarea"
+                                                          name="comment" placeholder="답글을 입력하세요"
+                                                          style="height: 42px;"></textarea>
+                                            </div>
+                                            <div class="mb-0 mt-2 text-center">
+                                                <button class="h-btn-submit-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small"
+                                                        type="button">저장
+                                                </button>
+                                                <button class="h-btn-cancel-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small"
+                                                        type="button">취소
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!-- 답글 목록 (기본적으로 숨김) -->
+                                        <div class="h-div-reply-comment-list px-2 ms-4 py-3 mt-3" style="display:none;">
+                                            <div th:each="reply_comment : ${comment.reply_comment}"
+                                                 class="h-div-reply-comment">
+                                                <div class="py-3 border-top position-relative">
+                                                    <div class="comment-body">
+                                                        <p class="mb-1 small">
+                                                            <span class="mb-2 me-2 text-primary">@<span
+                                                                    th:text="${reply_comment.to_name}"></span></span>
+                                                            <!-- newline to <br> 변환을 위한 Java 코드가 필요할 수 있습니다. -->
+                                                            <span th:utext="${#strings.replace(reply_comment.comment, '\n', '<br/>')}"></span>
+                                                        </p>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <strong class="me-2"
+                                                                        th:text="${reply_comment.name}"></strong>
+                                                                <small class="comment-date font-roboto"
+                                                                       th:text="${reply_comment.create_date}"></small>
+                                                            </div>
+                                                            <div>
+                                                                <a th:if="${output.user.auth_flg and reply_comment.member_seq == output.user.seq}"
+                                                                   href="#"
+                                                                   class="h-btn-reply-modify d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i
+                                                                        class="fas fa-user-edit"></i> 수정</a>
+                                                                <a th:if="${output.user.auth_flg and reply_comment.member_seq == output.user.seq}"
+                                                                   href="#"
+                                                                   class="h-btn-reply-delete d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i
+                                                                        class="fas fa-trash-alt"></i> 삭제</a>
+                                                                <a href="#"
+                                                                   class="h-btn-reply-comment btn-outline-secondary d-inline-block btn btn-outline-dark btn-sm ms-2 my-2 small"><i
+                                                                        class="far fa-comment"></i> 답글</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <form class="my-3 h-form-reply-comment" style="display:none;">
+                                                    <input type="hidden" name="parent_comment_key"
+                                                           th:value="${reply_comment.comment_key}"/>
+                                                    <div class="mb-0 mt-2">
+                                                        <textarea type="text" rows="1"
+                                                                  class="form-control comment-textarea" name="comment"
+                                                                  placeholder="답글을 입력하세요"
+                                                                  style="height: 42px;"></textarea>
+                                                    </div>
+                                                    <div class="mb-0 mt-2 text-center">
+                                                        <button class="h-btn-submit-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small"
+                                                                type="button">저장
+                                                        </button>
+                                                        <button class="h-btn-cancel-reply mx-1 btn btn-outline-dark btn-sm ms-2 my-2 small"
+                                                                type="button">취소
+                                                        </button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 페이지네이션 -->
+                        <div class="mt-4">
+                            <nav>
+                                <ul class="pagination justify-content-center mb-0">
+                                    <!-- 첫 페이지로 이동 -->
+                                    <li class="page-item">
+                                        <a class="page-link border-0 bg-transparent"
+                                           th:href="${output.pagination.paging.first.link}"
+                                           th:data-page="${output.pagination.paging.first.number}">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <!-- 이전 페이지로 이동 -->
+                                    <li class="page-item">
+                                        <a class="page-link border-0 bg-transparent"
+                                           th:href="${output.pagination.paging.prev.link}"
+                                           th:data-page="${output.pagination.paging.prev.number}">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                    <!-- 페이지 번호 출력 -->
+                                    <li class="page-item h-page-numbers"
+                                        th:each="page : ${output.pagination.paging.page}"
+                                        th:if="${output.pagination.paging.page != null}">
+                                        <a th:class="${output.pagination.page == page.number ? 'page-link active' : 'page-link'}"
+                                           th:href="${page.link}" th:data-page="${page.number}"
+                                           th:text="${page.number}"></a>
+                                    </li>
+                                    <!-- 페이지 정보가 없는 경우 1 페이지만 표시 -->
+                                    <li class="page-item" th:if="${output.pagination.paging.page == null}">
+                                        <a class="border-0 page-link">1</a>
+                                    </li>
+                                    <!-- 다음 페이지로 이동 -->
+                                    <li class="page-item">
+                                        <a class="page-link border-0 bg-transparent"
+                                           th:href="${output.pagination.paging.next.link}"
+                                           th:data-page="${output.pagination.paging.next.number}">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    <!-- 마지막 페이지로 이동 -->
+                                    <li class="page-item">
+                                        <a class="page-link border-0 bg-transparent"
+                                           th:href="${output.pagination.paging.end.link}"
+                                           th:data-page="${output.pagination.paging.end.number}">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>
