@@ -10,7 +10,7 @@ class HFConnector
 	private $arrHeader = [];
 	private $arrRequestData = [];
 	private $strAPIToken;
-	private $strSecureKey = "ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1";
+	private $strSecureKey = "ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1"; // Demo용 Key 입니다.
 	public $result;
 	public $response;
 	public function __construct($arrRequestData)

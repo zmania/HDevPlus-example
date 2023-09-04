@@ -1,7 +1,7 @@
 let output = {};
 let app;
 let components = {};
-const secureKey = 'ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1';
+const secureKey = 'ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1'; // Demo용 Key 입니다.
 $(function () {
     let session_id;
     session_id = localStorage.getItem('session_id');

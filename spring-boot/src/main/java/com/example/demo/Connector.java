@@ -30,14 +30,9 @@ public class Connector {
     private final WebClient webClient;
     private static final int SOME_MAX_AGE = 86_400 * 365;
     private static final Logger logger = LoggerFactory.getLogger(ThymeleafController.class);
-    private final String SECURITY_KEY = "ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1"; // 여기에 실제 security-key 값을 설정하세요.
-//    private final String SECURITY_KEY = "d3d9f76a5a6b1d08c00b6e806dc6413ab7fc12d08dc2e1256149d060bed5218b"; // 여기에 실제 security-key 값을 설정하세요.
+    private final String SECURITY_KEY = "ee9d2d324e261c42e5372a20b19c85b5ac7db7908dce804c59c911c2ae6624e1"; // Demo용 Key 입니다.
 
     public Connector() {
-//        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-//                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 10)) // 1MB
-//                .build();
-
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.hanbnc.com")
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.create().secure(t ->
@@ -144,7 +139,7 @@ public class Connector {
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
         cookie.setSecure(true);
-        cookie.setHttpOnly(false);  // 보안상의 이유로 HttpOnly를 설정하는 것이 좋습니다
+        cookie.setHttpOnly(false);
 
         response.addCookie(cookie);
     }
