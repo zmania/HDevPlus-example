@@ -63,7 +63,9 @@
                             <!-- USER PROFILE START -->
                             <!-- MODIFY FORM START -->
                             <form id="frm_member" class="my-5">
-                                <input type="hidden" name="return_url" id="return_url" value="/mypage/view"/>
+                                <input type="hidden" name="return_url" id="return_url" value="./mypage.html"/>
+                                <input type="hidden" name="auth_expire_url" id="auth_expire_url" value="./auth-user.html"/>
+                                <input type="hidden" name="token" id="token" :value="output.token"/>
                                 <div class="setting-item">
                                     <div class="row g-2 align-items-center">
                                         <div class="col-md-5">
