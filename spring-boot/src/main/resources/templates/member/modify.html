@@ -12,8 +12,8 @@
     <!-- BOOTSTRAP OPTIONAL -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
     <!-- REQUEST DATA -->
-    <script>
-        const requestData = {'dataID': 'MODIFY_USER', 'fail_redirect_url': './login.html', 'password': '2.nothing'};
+    <script th:inline="javascript">
+        const requestData = {'dataID': 'MODIFY_USER', 'fail_redirect_url': './login.html', 'password': [[${postParams['password'] != null ? postParams['password'] : ''}]][0]};
     </script>
     <style>
         [v-cloak] {
@@ -62,116 +62,92 @@
                             </div>
                             <!-- USER PROFILE START -->
                             <!-- MODIFY FORM START -->
-                            <form id="frm_member" class="my-5">
+                            <form id="frm_member" class="my-5 offset-lg-2 col-lg-8">
                                 <input type="hidden" name="return_url" id="return_url" value="/mypage/view"/>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>이메일</h6>
-                                            <p class="small mb-0">사용하시는 이메일 주소를 입력하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <input type="email" :value="output.member[0].email" class="form-control" data-validation="email" data-validation-type="replace" id="email" name="email" placeholder="이메일을 입력하세요" data-gtm-form-interact-field-id="0">
                                         </div><!-- col -->
                                     </div><!-- row -->
                                 </div>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>휴대전화</h6>
-                                            <p class="small mb-0">휴대전화번호를 입력하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <input type="text" :value="output.member[0].cell_phone" class="form-control" data-validation="number" data-validation-type="replace" id="cell_phone" name="cell_phone" placeholder="휴대전화 번호를 입력하세요">
                                         </div><!-- col -->
                                     </div><!-- row -->
                                 </div>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>이름</h6>
-                                            <p class="small mb-0">이름을 입력하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <input type="text" :value="output.member[0].name" class="form-control" data-validation="not-empty" id="name" name="name" placeholder="이름을 입력하세요">
                                         </div><!-- col -->
                                     </div><!-- row -->
                                 </div>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>닉네임</h6>
-                                            <p class="small mb-0">포럼 등에서 사용할 닉네임을 입력하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <input type="text" :value="output.member[0].nickname" class="form-control" data-validation="not-empty" id="nickname" name="nickname" placeholder="닉네임을 입력하세요">
                                         </div><!-- col -->
                                     </div><!-- row -->
                                 </div>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
-                                            <h6>아바타</h6>
-                                            <p class="small mb-0">프로필 아바타를 선택하세요.</p>
-                                        </div><!-- col -->
-                                        <div class="col-md">
-                                            <div class="d-flex flex-wrap justify-content-start align-items-center">
-												<? foreach ($arrAvatar as $intKey => $strResult) { ?>
-                                                    <div class="me-2 my-1 text-center">
-                                                        <label class="form-check-label avatar avatar-lg" for="avatar_<?= $intKey + 1; ?>"><img src="<?= $strResult; ?>"/></label>
-                                                        <input class="" type="radio" id="avatar_<?= $intKey + 1; ?>" name="avatar_url" value="<?= $strResult; ?>" :checked="output.member[0].avatar_url=='<?= $strResult; ?>'">
-                                                    </div>
-												<? } ?>
-                                            </div>
-                                        </div><!-- col -->
-                                    </div><!-- row -->
-                                </div>
-                                <div class="setting-item">
-                                    <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>생일</h6>
-                                            <p class="small mb-0">생일을 선택하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col">
                                                     <label for="barth_y" class="form-label visually-hidden">생일(년)</label>
                                                     <select class="form-select" id="barth_y" name="barth_y" data-validation="not-empty">
                                                         <option value="">년도 선택</option>
-														<? for ($y = date('Y'); $y > date('Y') - 80; $y--) { ?>
-                                                            <option value="<?= $y; ?>" :selected="output.member[0].barth_y == <?= $y; ?>"><?= $y; ?>년</option>
-														<? } ?>
+                                                        <option v-for="year in 2023" :key="year" :value="year" :selected="output.member[0].birthYear == year">
+                                                            {{ year }}년
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="col">
                                                     <label for="barth_m" class="form-label visually-hidden">생일(월)</label>
                                                     <select class="form-select" id="barth_m" name="barth_m" data-validation="not-empty">
                                                         <option value="" selected="selected">월 선택</option>
-                                                        <!--													--><? // for ($m = 1; $m < 13; $m++) { ?>
-                                                        <!--                                                        <option value="--><?php //= $m; ?><!--" :selected="output.member[0].barth_m == --><?php //=$m;?><!--">--><?php //= $m; ?><!--월</option>-->
-                                                        <!--													--><? // } ?>
+                                                        <option v-for="month in 31" :key="month" :value="month" :selected="output.member[0].barth_m == month">
+                                                            {{ month }}월
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="col">
                                                     <label for="barth_d" class="form-label visually-hidden">생일(일)</label>
                                                     <select class="form-select" id="barth_d" name="barth_d" data-validation="not-empty">
                                                         <option value="" selected="selected">일 선택</option>
-                                                        <!--													--><? // for ($d = 1; $d < 32; $d++) { ?>
-                                                        <!--                                                        <option value="--><?php //= $d; ?><!--" :selected="output.member[0].barth_d == --><?php //=$d;?><!--">--><?php //= $d; ?><!--일</option>-->
-                                                        <!--													--><? // } ?>
+                                                        <option v-for="day in 31" :key="day" :value="day" :selected="output.member[0].barth_d == day">
+                                                            {{ day }}일
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div><!-- col -->
                                     </div><!-- row -->
                                 </div>
-                                <div class="setting-item">
+                                <div class="py-3">
                                     <div class="row g-2 align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <h6>소식 및 정보 수신</h6>
-                                            <p class="small mb-0">소식 및 정보 수신 여부를 선택하세요.</p>
                                         </div><!-- col -->
-                                        <div class="col-md">
+                                        <div class="col-md-12">
                                             <div class="form-group has-validation">
                                                 <div class="form-check lh-base mt-3">
                                                     <input class="form-check-input" type="checkbox" id="receive_message_flg" name="receive_message_flg" value="Y" :checked="output.member[0].receive_message_flg=='Y'"><label class="form-check-label" for="receive_message_flg">소식 및 정보등의 수신 동의.</label>

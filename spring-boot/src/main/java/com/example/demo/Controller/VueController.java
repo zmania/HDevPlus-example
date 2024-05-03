@@ -10,10 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @Controller
@@ -57,6 +56,23 @@ public class VueController {
         logger.error("Output: {}", output);
         String jsonOutput = new ObjectMapper().writeValueAsString(output);
         return jsonOutput;
+    }
+    @RequestMapping("/member/modify")
+    public ModelAndView  modifyProfile(
+            @RequestParam(required = false) Map<String, String> getParams,
+            @RequestBody(required = false) MultiValueMap<String, String> postBody) {
+
+        ModelAndView modelAndView = new ModelAndView("member/modify");
+
+        if (getParams != null && !getParams.isEmpty()) {
+            modelAndView.addObject("getParams", getParams);
+        }
+
+        if (postBody != null && !postBody.isEmpty()) {
+            modelAndView.addObject("postParams", postBody);
+        }
+
+        return modelAndView;
     }
     private void setCookie(HttpServletResponse response, String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);

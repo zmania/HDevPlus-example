@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.111.3">
+	<title>H:Dev+ Sample Code</title>
+
+	<!-- BOOTSTRAP OPTIONAL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
+	<!-- REQUEST DATA -->
+    <script>
+        const requestData = {'dataID': 'GET_MY_POST', 'fail_redirect_url':'/user/sign-in', 'my_notice_flg': 'Y', 'my_notice_limit':10, 'post_responder_flg':'Y','post_responder_limit':3,'list_per_page':5,'page': new URLSearchParams(window.location.search).get('page') ? new URLSearchParams(window.location.search).get('page') : 1};
+    </script>
+	<style>
+        [v-cloak] {
+            display:none;
+        }
+	</style>
+</head>
+<body>
+
+<div id="app" v-cloak>
+	<gnb-comp :output="output"></gnb-comp>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 mb-5">
+				<div class="px-lg-4 mb-5">
+					<!-- USER PROFILE START -->
+					<div class="mb-3 row rounded-3 py-3">
+						<div class="col-12 col-md-12 col-lg-auto mb-3 mb-sm-0 d-flex justify-content-center align-items-center">
+							<div class="mx-4" style="width:6rem;">
+								<img colon:src="output.user.avatar_url" class="img-fluid">
+							</div>
+						</div><!-- media-img -->
+						<div class="w-100 my-2 ps-3 py-3 me-4 rounded-3 col-12 col-md-12 col-lg media-body d-flex flex-column align-items-start justify-content-center">
+							<div class="w-100 text-center text-lg-start d-flex align-items-center justify-content-start">
+								<h4>
+									{{output.user.nickname}}
+								</h4>
+								<small class="d-block my-2 ms-2">({{output.user.name}})</small>
+							</div>
+							<div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
+								<div class="col-6 col-sm-3">
+									<span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2">Level : {{output.member[0].level.toLocaleString()}}</span>
+								</div>
+								<div class="col-6 col-sm-3">
+									<span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
+								</div>
+								<div class="col-6 col-sm-3">
+									<span class="w-100 mx-3  mt-2 badge text-white rounded-pill bg-secondary p-2">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
+								</div>
+								<div class="col-6 col-sm-3">
+									<span class="w-100 mx-3 mt-2 badge text-white rounded-pill bg-secondary p-2">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- USER PROFILE END -->
+					<mypage-sub-menu :output="output"></mypage-sub-menu>
+					<!-- MY NOTICE LIST START -->
+					<div class="card-ui-top bg-gray-light px-3 rounded-3 py-2 my-4 d-flex justify-content-between align-items-center">
+						<small class="smaller text-black"> Result {{output.pagination.total_result_num}} post </small>
+						<a :href="output.user.auth_flg ? '/community/add' : '/user/sign-in'" class="btn btn-light d-flex justify-content-between align-items-center text-black lh-1"><i class="fas fa-plus-circle"></i> <small class="ms-2 text-black smaller">ADD</small></a>
+					</div>
+					<div class="h-post-list me-3">
+						<div v-if="output.post_list.length>0">
+							<div class="card mb-4 pb-4 card-article border-bottom bg-transparent" v-for="post in output.post_list">
+								<div class="row g-0 flex-nowrap">
+									<div class="col">
+										<div class="card-body">
+											<div class="row align-items-center">
+												<div class="col-12 col-lg d-flex justify-content-start align-items-center lh-1 my-2">
+													<small class="ms-1 fw-bold">{{post.bbs_name}}</small>
+												</div>
+												<div class="col-12 col-lg-3 text-start text-lg-end my-2">
+													<small class="text-nowrap">
+														<i class="far fa-clock me-1"></i>
+														{{post.create_date}}
+													</small>
+												</div>
+											</div>
+											<hr/>
+											<div class="ms-1 mt-2">
+												<h1 class="fs-5 card-title">
+													<a :href="'/post/view.html?post_key='+post.post_key" class="text-black" v-html="post.subject"></a>
+												</h1>
+												<p class="card-text crop-text-2" v-html="post.content_without_html"></p>
+											</div>
+											<div class="card-text d-flex align-items-center justify-content-between">
+												<div class="d-flex align-items-center justify-content-start my-2">
+                                            <span v-for="tags in post.tags" class="badge bg-white border me-1 fw-normal text-hbnc-secondary me-2 px-3 py-2">
+                                                {{tags.tag}}
+                                            </span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div>
+								<nav>
+									<ul class="pagination justify-content-center mb-0">
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.first.link" v-bind:data-page="output.pagination.paging.first.number"><i class="fas fa-angle-double-left"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.prev.link" v-bind:data-page="output.pagination.paging.prev.number"><i class="fas fa-angle-left"></i></a></li>
+										<li class="page-item h-page-numbers" v-if="output.pagination.paging.page" v-for="page in output.pagination.paging.page"><a :class="{'page-link':true, 'active': output.pagination.page == page.number }" v-bind:href="page.link" v-bind:data-page="page.number">{{page.number}}</a></li>
+										<li class="page-item" v-else><a class="border-0 page-link">1</a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.next.link" v-bind:data-page="output.pagination.paging.next.number"><i class="fas fa-angle-right"></i></a></li>
+										<li class="page-item"><a class="page-link border-0 bg-transparent" v-bind:href="output.pagination.paging.end.link" v-bind:data-page="output.pagination.paging.end.number"><i class="fas fa-angle-double-right"></i></a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<div v-else>
+							<div class="my-4 px-3 py-4 text-center rounded-3 d-flex align-items-center justify-content-lg-center"><i class="far fa-bell me-2"></i> <small>등록한 게시물이 없습니다.</small></div>
+						</div>
+					</div>
+					<!-- MY NOTICE LIST END -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<bottom :output="output"></bottom>
+</div>
+
+
+<!-- JQUERY REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<!-- VUE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.global.js"></script>
+<!-- BOOTSTRAP OPTIONAL -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<!-- CUSTOM -->
+<script src="../_connector/yellow.501.js"></script>
+<script src="../components/gnb.js"></script>
+<script src="../components/bottom.js"></script>
+<script src="../components/mypage-sub-menu.js"></script>
+</body>
+</html>

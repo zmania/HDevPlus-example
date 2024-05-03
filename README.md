@@ -10,7 +10,7 @@ H:Dev+는 현재 베타 서비스 중으로 본 샘플코드는 Beta서비스 �
 ## 디렉토리 안내
 - php : php example
 - spring-boot : sprint boot example (resource/static:VueJS, resource/templates : thymeleaf)
-- vue : VueJS 3 example
+- vue-dr : VueJS 3 example(declarative rendering)
 
 각각의 example의 secure key는 접근에 제한이 업는 Demo key 입니다.
 
