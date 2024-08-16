@@ -13,7 +13,7 @@ H:Dev+는 현재 베타 서비스 중으로 본 샘플코드는 Beta서비스 �
 - vue-dr : VueJS 3 example(declarative rendering)
 - vue : VueJS 3 example(Imperative rendering)
 
-각각의 example의 secure key는 접근에 제한이 업는 Demo key 입니다.
+각각의 example의 secure key는 접근에 제한이 없는 Demo key 입니다.
 
 ## Example 계정 로그인 정보
 example 페이지의 로그인 정보 : demo@hanbnc.com/hdevplus1234 
