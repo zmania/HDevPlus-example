@@ -9,11 +9,11 @@ const {output} = await useNuxtApp().$connector(requestData);
 </script>
 
 <template>
-  <main v-if="output">
+  <div v-if="output">
     <navComp :output="output"/>
+    <main class="container my-4">
     <div class="row">
       <div class="col-12">
-        <div class="col-12 col-xl-6 offset-xl-3 border-lg-end-none">
           <div class="px-4"><h1 class="fw-bold mb-4">문의하기</h1>
             <form id="frm_web_form" data-geo-location="yes" data-validation-alert="no" data-complete-type="alert" data-complete-message="전송이 완료되었습니다."><input type="hidden" name="form_code" value="contact"><input type="hidden" name="return_url" value="/">
               <div class="col-12 col-lg-12 mb-3"><label for="answer_1_value" class="form-label">문의 구분</label><input type="hidden" name="answer[1][label]" value="문의 구분"><select name="answer[1][value]" id="answer_1_value" data-validation="not-empty" class="form-select">
@@ -37,8 +37,8 @@ const {output} = await useNuxtApp().$connector(requestData);
               </div>
             </form>
           </div>
-        </div>
       </div>
     </div>
   </main>
+  </div>
 </template>

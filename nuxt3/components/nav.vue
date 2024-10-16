@@ -1,6 +1,6 @@
 <script setup>
 
-const { output } = defineProps({
+const {output} = defineProps({
   output: {
     type: Object,
     default: {}
@@ -9,10 +9,16 @@ const { output } = defineProps({
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" v-bind="$attrs"> <!--v-if="output" -->
+  <nav class="navbar navbar-expand-lg bg-body-secondary sticky-top">
     <div class="container">
-      <NuxtLink class="navbar-brand me-5 text-black" href="/"><img src="https://dev.hanbnc.com/_images/common/hbnc-cube.png" class="mb-1 me-3" style="width: 2rem;"><span class="font-roboto" style="font-size: 1.2rem; font-weight: 900;">H</span><small style="font-size: 0.8rem; font-weight: 400; letter-spacing: -1px;"> : </small><small class="font-roboto" style="font-size: 0.8rem; font-weight: 400;">DEV+</small></NuxtLink>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <NuxtLink class="navbar-brand me-5 text-black" href="/"><img
+          src="https://dev.hanbnc.com/_images/common/hbnc-cube.png" class="mb-1 me-3" style="width: 2rem;"><span
+          class="font-roboto" style="font-size: 1.2rem; font-weight: 900;">H</span><small
+          style="font-size: 0.8rem; font-weight: 400; letter-spacing: -1px;"> : </small><small class="font-roboto"
+                                                                                               style="font-size: 0.8rem; font-weight: 400;">DEV+</small>
+      </NuxtLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -46,13 +52,21 @@ const { output } = defineProps({
 
         <form id="frm_post_search" class="d-flex mx-1 " method="get" action="/post/list">
           <input type="hidden" id="page" name="page" value="1">
-          <input class="form-control me-2" type="search" name="search_keyword" :value="output?.search_keyword" id="search_keyword" placeholder="Search" aria-label="Search">
+          <input class="form-control me-2" type="search" name="search_keyword" :value="output?.search_keyword"
+                 id="search_keyword" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <NuxtLink href="/member/mypage" v-if="output?.user.auth_flg" class="mx-1 btn btn-outline-dark">마이페이지</NuxtLink>
-        <button v-if="output?.user.auth_flg" class="mx-1 btn btn-outline-dark h-btn-sign-out" data-return-url="/" type="button">로그아웃</button>
-        <NuxtLink href="/member/login" v-if="output && !output.user.auth_flg" class="mx-1 btn btn-outline-dark">로그인</NuxtLink>
-        <NuxtLink href="/member/join" v-if="output && !output.user.auth_flg" class="mx-1 btn btn-outline-dark">회원가입</NuxtLink>
+        <div class="my-2">
+          <NuxtLink href="/member/mypage" v-if="output?.user.auth_flg" class="mx-1 btn btn-outline-dark">마이페이지
+          </NuxtLink>
+          <button v-if="output?.user.auth_flg" class="mx-1 btn btn-outline-dark h-btn-sign-out" data-return-url="/"
+                  type="button">로그아웃
+          </button>
+          <NuxtLink href="/member/login" v-if="output && !output.user.auth_flg" class="mx-1 btn btn-outline-dark">로그인
+          </NuxtLink>
+          <NuxtLink href="/member/join" v-if="output && !output.user.auth_flg" class="mx-1 btn btn-outline-dark">회원가입
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </nav>

@@ -8,11 +8,11 @@ const {output} = await useNuxtApp().$connector(requestData);
 </script>
 
 <template>
-    <main v-if="output">
+    <div v-if="output">
       <navComp :output="output"/>
-      <div class="container">
+      <main class="container">
         <div class="row">
-          <div class="col-10 mb-5 mx-auto">
+          <div class="12 mb-5 mx-auto">
             <div class="px-lg-4 mb-5">
               <!-- USER PROFILE START -->
               <div class="mb-3 row rounded-3 py-3">
@@ -25,16 +25,16 @@ const {output} = await useNuxtApp().$connector(requestData);
                   </div>
                   <div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 mt-2 badge text-white rounded-pill bg-secondary">Level : {{output.member[0].level.toLocaleString()}}</span>
+                      <span class="w-100 mt-2 py-3 badge text-white rounded-pill bg-secondary">Level : {{output.member[0].level.toLocaleString()}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 mt-2 badge text-white rounded-pill bg-secondary">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 mt-2 py-3 badge text-white rounded-pill bg-secondary">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 ms-3 py-3 mt-2 badge text-white rounded-pill bg-secondary">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 ms-3 py-3 mt-2 badge text-white rounded-pill bg-secondary">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
                     </div>
                   </div>
                 </div>
@@ -71,6 +71,6 @@ const {output} = await useNuxtApp().$connector(requestData);
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
 </template>

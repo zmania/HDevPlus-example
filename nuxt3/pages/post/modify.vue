@@ -1,8 +1,9 @@
 <script setup>
 
-import {ref} from "vue";
+import {init} from '@/composables/common';
+const {route, env} = init();
 import navComp from '@/components/nav.vue'
-const requestData = {'dataID': 'ADD_POST', 'search_keyword': new URLSearchParams(window.location.search).get('search_keyword')};
+const requestData = {'dataID': 'MODIFY_POST', 'post_key': route.query.post_key, 'search_keyword': route.query.search_keyword,'page': route.query.page};
 const {output} = await useNuxtApp().$connector(requestData);
 </script>
 
@@ -13,10 +14,11 @@ const {output} = await useNuxtApp().$connector(requestData);
       <div class="row g-5">
         <div class="col-12">
           <div class="text-center">
-            <h2 class="mt-5 mb-3">게시물 등록</h2>
+            <h2 class="mt-5 mb-3">게시물 수정</h2>
           </div>
           <form id="frm_save_post" data-validation-alert="no">
-            <input type="hidden" name="return_url" value="/post/list"/>
+            <input type="hidden" name="return_url" :value="'/post/'+output.post[0].seq+'/'+output.post[0].subject"/>
+            <input type="hidden" name="post_key" :value="output.post[0].post_key"/>
             <div class="row">
               <div class="col-12">
                 <div class="form-label">게시판</div>
@@ -24,9 +26,9 @@ const {output} = await useNuxtApp().$connector(requestData);
                   <div class="bg-gray-light rounded-3 my-3 py-3">
                     <div class="row">
                       <div class="col-6 col-lg-3" v-for="result in output.bbs_list">
-                        <div class="me-2 px-3 py-2 my-2 bg-secondary rounded-3 d-flex justify-content-between align-items-center">
-                          <label class="crop-text-1 text-white" :for="'bbs_'+result.seq">{{result.bbs_name}}</label>
+                        <div class="me-2 px-3 py-2 my-2 bg-body-secondary rounded-3">
                           <input type="radio" class="form-check-input" :id="'bbs_'+result.seq" name="bbs_seq" :checked="output.post ? output.post[0].bbs_seq == result.seq : false" :value="result.seq" autocomplete="off">
+                          <label :for="'bbs_'+result.seq" class="mx-2">{{result.bbs_name}}</label>
                         </div>
                       </div>
                     </div>
@@ -63,9 +65,8 @@ const {output} = await useNuxtApp().$connector(requestData);
                 </div>
               </div>
               <div class="col-12 col-lg-12 mb-3" style="overflow: auto;">
-                <div for="content" class="form-label">내용</div>
-                <textarea id="content_1" :name="'content['+(output.post ? output.post[0].contents[0].seq : '')+']'" data-validation="not-empty" :value="output.post ? output.post[0].contents[0].content : ''" rows="10" style="width:100%;"></textarea>
-
+                <label for="content" class="form-label">내용</label>
+                <textarea id="content" class="form-control" :name="'content['+(output.post ? output.post[0].contents[0].seq : '')+']'" data-validation="not-empty" rows="10" style="width:100%;">{{output.post ? output.post[0].contents[0].content : ''}}</textarea>
                 <small class="invalid-feedback">
                   내용을 입력하세요
                 </small>

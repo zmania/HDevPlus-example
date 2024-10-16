@@ -28,8 +28,8 @@ const {output} = await useNuxtApp().$connector(requestData);
                   </div>
                   <div class="col-12 mb-3">
                     <div class="my-4 text-center mb-5">
-                      <button type="submit" class="mx-1 btn border-hbnc-primary bg-hanbnc-primary-3 border border-3 px-4">확인</button>
-                      <NuxtLink href="/member/mypage" class="mx-1 btn border-gray-default-op-50 bg-gray-light border border-3 px-4">취소</NuxtLink>
+                      <button type="submit" class="mx-1 btn btn-outline-dark px-4">확인</button>
+                      <NuxtLink href="/member/mypage" class="mx-1 btn btn-outline-dark px-4">취소</NuxtLink>
                     </div>
                   </div>
                 </div>

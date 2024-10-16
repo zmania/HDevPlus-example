@@ -8,12 +8,12 @@ const {output} = await useNuxtApp().$connector(requestData);
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="output">
     <navComp :output="output"/>
-    <main>
+    <main class="container my-4">
       <div class="row">
-        <div class="col-12">
-          <form id="frm_sign_up" class="col-12 col-lg-7 mx-auto mt-5 needs-validation form-signup">
+        <div class="col-12 col-lg-7 mx-auto mt-5">
+          <form id="frm_sign_up" class="needs-validation form-signup">
             <input type="hidden" name="return_url" id="return_url" value="/user/sign-in">
             <div class="text-center">
               <h2 class="my-3">회원가입</h2>
@@ -22,7 +22,7 @@ const {output} = await useNuxtApp().$connector(requestData);
               <div>
                 <div class="form-check lh-base mt-3">
                   <input class="form-check-input" type="checkbox" id="term_agree" name="term_agree" value="Y">
-                  <label class="form-check-label" for="remember_me">이용약관 및 개인정보 처리방침에 동의합니다.</label>
+                  <label class="form-check-label" for="term_agree">이용약관 및 개인정보 처리방침에 동의합니다.</label>
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@ const {output} = await useNuxtApp().$connector(requestData);
                   <div class="form-group has-validation">
                     <div class="form-check lh-base mt-3">
                       <input class="form-check-input" type="checkbox" id="receive_message" name="receive_message" value="Y">
-                      <label class="form-check-label" for="remember_me">소식 및 정보수신에 동의합니다.</label>
+                      <label class="form-check-label" for="receive_message">소식 및 정보수신에 동의합니다.</label>
                     </div>
                   </div>
                 </div>
@@ -106,7 +106,7 @@ const {output} = await useNuxtApp().$connector(requestData);
             </div>
             <div class="my-5 text-center">
               <button class="w-50 px-4 btn btn-dark" type="submit">회원가입</button>
-              <p class="my-3"><NuxtLink href="/member/join">로그인</NuxtLink><span class="mx-2">|</span><NuxtLink href="#">비밀번호 찾기</NuxtLink></p>
+              <p class="my-3"><NuxtLink href="/member/login">로그인</NuxtLink><span class="mx-2">|</span><NuxtLink href="/member/find-password">비밀번호 찾기</NuxtLink></p>
             </div>
           </form>
         </div>

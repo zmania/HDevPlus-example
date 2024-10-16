@@ -1,41 +1,32 @@
 <script setup>
 
 import {ref, computed} from "vue";
+import {init} from '@/composables/common';
+const {route, env} = init();
 import navComp from '@/components/nav.vue'
-const output = ref(null)
-const {Connector} = defineProps({
-  Connector: {
-    type: Object,
-    default: {}
+
+const requestData = {'dataID': 'MODIFY_USER', 'fail_redirect_url': '/user/sign-in', 'token': route.query.token, 'my_post_list_flg': 'Y', 'my_post_list_limit': 10, 'my_notice_flg': 'Y', 'my_notice_limit': 20, 'post_responder_flg': 'Y', 'post_responder_limit': 20, 'page': route.query.page};
+const {output} = await useNuxtApp().$connector(requestData);
+
+const currentYear = new Date().getFullYear();
+
+const years = computed(() => {
+  const yearList = [];
+  for (let y = currentYear; y > currentYear - 80; y--) {
+    yearList.push(y);
   }
-});
-const requestData = {'dataID': 'MODIFY_USER','token': new URLSearchParams(window.location.search).get('token'),'fail_redirect_url':'/member/auth'};
-
-Connector.request(requestData, (data) => {
-  output.value = data; // 성공 시 데이터 저장
-}, (error) => {
-  console.error('Request failed:', error); // 실패 시 에러 로깅
+  return yearList;
 });
 
-const selectedYear = ref(new Date().getFullYear());
-const selectedMonth = ref(new Date().getMonth() + 1);
-const selectedDay = ref(new Date().getDate());
-const years = range(1900, new Date().getFullYear());
-
-const daysInMonth = computed(() => {
-  return new Date(selectedYear.value, selectedMonth.value, 0).getDate();
-});
-
-function range(start, end) {
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-}
+const months = Array.from({length: 12}, (_, i) => i + 1);
+const days = Array.from({length: 31}, (_, i) => i + 1);
 
 </script>
 
 <template>
-    <main v-if="output && output.member.length>0">
+    <div v-if="output && output.member.length>0">
       <navComp :output="output"/>
-      <div class="container">
+      <main class="container">
         <div class="row">
           <div class="col-12 mb-5">
             <div class="px-lg-4 mb-5">
@@ -50,16 +41,16 @@ function range(start, end) {
                   </div>
                   <div class="w-100 mt-2 row row-cols-sm-auto justify-content-center justify-content-lg-start">
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 mt-2 badge text-white rounded-pill bg-secondary">Level : {{output.member[0].level.toLocaleString()}}</span>
+                      <span class="w-100 mt-2 py-3 badge text-white rounded-pill bg-secondary">Level : {{output.member[0].level.toLocaleString()}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 mt-2 badge text-white rounded-pill bg-secondary">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 mt-2 py-3 badge text-white rounded-pill bg-secondary">Post : {{output.member_post_count ? output.member_post_count.toLocaleString() : 0}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 ms-3 py-3 mt-2 badge text-white rounded-pill bg-secondary">Comment : {{output.member_comment_count ? output.member_comment_count.toLocaleString() : 0}}</span>
                     </div>
                     <div class="col-6 col-sm-3">
-                      <span class="w-100 ms-3 mt-2 badge text-white rounded-pill bg-secondary">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
+                      <span class="w-100 ms-3 py-3 mt-2 badge text-white rounded-pill bg-secondary">Like : {{output.member_like_count ? output.member_like_count.toLocaleString() : 0}}</span>
                     </div>
                   </div>
                 </div>
@@ -122,31 +113,22 @@ function range(start, end) {
                     </div><!-- col -->
                     <div class="col-md">
                       <div class="row">
-                        <div class="col">
-                          <label for="barth_y" class="form-label visually-hidden">생일(년)</label>
-                          <select class="form-select" id="barth_y" name="barth_y" data-validation="not-empty" v-model="selectedYear">
-                            <option value="">년도 선택</option>
-                            <option v-for="year in years" :key="year" :value="year">
-                              {{ year }}
-                            </option>
+                        <div class="col-12 col-md-4">
+                          <select class="form-select" id="birth_y" name="birth_y" data-validation="not-empty">
+                            <option value="" :selected="!output.member[0].birth_y">년도 선택</option>
+                            <option v-for="year in years" :key="year" :value="year" :selected="Number(output.member[0].birth_y) === year">{{ year }}년</option>
                           </select>
                         </div>
-                        <div class="col">
-                          <label for="barth_m" class="form-label visually-hidden">생일(월)</label>
-                          <select class="form-select" id="barth_m" name="barth_m" data-validation="not-empty" v-model="selectedMonth">
-                            <option value="" selected="selected">월 선택</option>
-                            <option v-for="month in 12" :key="month" :value="month">
-                              {{ month }}
-                            </option>
+                        <div class="col-12 col-md-4">
+                          <select class="form-select" id="birth_m" name="birth_m" data-validation="not-empty">
+                            <option value="" :selected="!output.member[0].birth_m">월 선택</option>
+                            <option v-for="month in months" :key="month" :value="month" :selected="Number(output.member[0].birth_m) === month">{{ month }}월</option>
                           </select>
                         </div>
-                        <div class="col">
-                          <label for="barth_d" class="form-label visually-hidden">생일(일)</label>
-                          <select  class="form-select" id="barth_d" name="barth_d" data-validation="not-empty" v-model="selectedDay">
-                            <option value="" selected="selected">일 선택</option>
-                            <option v-for="day in daysInMonth" :key="day" :value="day">
-                              {{ day }}
-                            </option>
+                        <div class="col-12 col-md-4">
+                          <select class="form-select" id="birth_d" name="birth_d" data-validation="not-empty">
+                            <option value="" :selected="!output.member[0].birth_d">일 선택</option>
+                            <option v-for="day in days" :key="day" :value="day" :selected="Number(output.member[0].birth_d) === day">{{ day }}일</option>
                           </select>
                         </div>
                       </div>
@@ -171,8 +153,8 @@ function range(start, end) {
 
                 <div class="my-5 text-center">
                   <div class="my-4 text-center mb-5">
-                    <button type="submit" class="mx-1 btn border-hbnc-primary bg-hanbnc-primary-3 border border-3 px-4">확인</button>
-                    <NuxtLink href="/member/mypage/" class="mx-1 btn border-gray-default-op-50 bg-gray-light border border-3 px-4">취소</NuxtLink>
+                    <button type="submit" class="mx-1 btn btn-outline-dark px-4">확인</button>
+                    <NuxtLink href="/member/mypage/" class="mx-1 btn btn-outline-secondary px-4">취소</NuxtLink>
                   </div>
                 </div>
               </form>
@@ -180,6 +162,6 @@ function range(start, end) {
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
 </template>
